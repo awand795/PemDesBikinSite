@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import api from '@/services/api';
-import { MessageSquare, CheckCircle } from 'lucide-react';
+import { MessageSquare, CheckCircle, Upload, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function PengaduanPublik() {
@@ -14,10 +14,13 @@ export default function PengaduanPublik() {
     isi_pengaduan: '',
     lokasi: '',
   });
+  const [fotoFiles, setFotoFiles] = useState<File[]>([]);
 
   const submitMutation = useMutation({
-    mutationFn: async (payload: any) => {
-      const { data } = await api.post('/public/complaints', payload);
+    mutationFn: async (payload: FormData) => {
+      const { data } = await api.post('/public/complaints', payload, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       return data.data;
     },
     onSuccess: (data) => {
@@ -28,7 +31,23 @@ export default function PengaduanPublik() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submitMutation.mutate(form);
+    const formData = new FormData();
+    Object.entries(form).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    fotoFiles.forEach((file) => {
+      formData.append('foto[]', file);
+    });
+    submitMutation.mutate(formData);
+  };
+
+  const addFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setFotoFiles((prev) => [...prev, ...files].slice(0, 3));
+  };
+
+  const removeFoto = (index: number) => {
+    setFotoFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   if (step === 'success' && result) {
@@ -130,6 +149,29 @@ export default function PengaduanPublik() {
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
               placeholder="Jelaskan pengaduan atau aspirasi Anda"
             />
+          </div>
+
+          {/* Foto Bukti */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Foto Bukti (opsional, maks. 3)</label>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {fotoFiles.map((file, i) => (
+                <div key={i} className="relative w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
+                  <img src={URL.createObjectURL(file)} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
+                  <button type="button" onClick={() => removeFoto(i)}
+                    className="absolute top-0.5 right-0.5 p-0.5 bg-red-500 text-white rounded-full">
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+              {fotoFiles.length < 3 && (
+                <label className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-primary-400 transition-colors">
+                  <Upload className="w-5 h-5 text-gray-400" />
+                  <input type="file" accept="image/*" onChange={addFoto} className="hidden" />
+                </label>
+              )}
+            </div>
+            <p className="text-xs text-gray-400">Format: JPG/PNG/WebP, maks 5MB per file</p>
           </div>
 
           <button

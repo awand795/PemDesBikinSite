@@ -10,9 +10,12 @@ use App\Models\Gallery;
 use App\Models\LetterRequest;
 use App\Models\LetterType;
 use App\Models\News;
+use App\Models\Resident;
 use App\Services\LetterNumberService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PublicController extends Controller
 {
@@ -120,6 +123,20 @@ class PublicController extends Controller
         return response()->json(['data' => $letterRequest]);
     }
 
+    public function stats(): JsonResponse
+    {
+        return response()->json(['data' => [
+            'total_penduduk' => Resident::where('is_active', true)->count(),
+            'total_kk' => \App\Models\Family::count(),
+            'surat_selesai_bulan_ini' => LetterRequest::whereIn('status', ['disetujui', 'selesai'])
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count(),
+            'total_berita' => News::where('status', 'published')->count(),
+            'total_pengaduan_selesai' => Complaint::where('status', 'selesai')->count(),
+        ]]);
+    }
+
     public function submitComplaint(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -128,7 +145,19 @@ class PublicController extends Controller
             'kategori' => 'required|string|max:100',
             'isi_pengaduan' => 'required|string',
             'lokasi' => 'nullable|string|max:255',
+            'foto' => 'nullable|array|max:3',
+            'foto.*' => 'file|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
+
+        // Handle photo uploads
+        $fotoPaths = [];
+        if ($request->hasFile('foto')) {
+            foreach ($request->file('foto') as $file) {
+                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                $path = Storage::disk('public')->putFileAs('complaints', $file, $filename);
+                $fotoPaths[] = Storage::disk('public')->url($path);
+            }
+        }
 
         $complaint = Complaint::create([
             'kode_tiket' => $this->letterNumberService->generateTicketCode(),
@@ -137,6 +166,7 @@ class PublicController extends Controller
             'kategori' => $validated['kategori'],
             'isi_pengaduan' => $validated['isi_pengaduan'],
             'lokasi' => $validated['lokasi'] ?? null,
+            'foto' => !empty($fotoPaths) ? $fotoPaths : null,
             'status' => 'baru',
         ]);
 

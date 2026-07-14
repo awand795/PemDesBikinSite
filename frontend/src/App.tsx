@@ -6,6 +6,7 @@ import AdminLayout from '@/components/layout/AdminLayout';
 import PublicLayout from '@/components/layout/PublicLayout';
 import Dashboard from '@/features/dashboard/Dashboard';
 import Login from '@/features/auth/Login';
+import ForgotPassword from '@/features/auth/ForgotPassword';
 import ResidentsList from '@/features/residents/ResidentsList';
 import ResidentForm from '@/features/residents/ResidentForm';
 import FamiliesList from '@/features/families/FamiliesList';
@@ -18,6 +19,10 @@ import PengumumanList from '@/features/announcements/PengumumanList';
 import PengaduanList from '@/features/complaints/PengaduanList';
 import PenggunaList from '@/features/users/PenggunaList';
 import PenggunaForm from '@/features/users/PenggunaForm';
+import JenisSuratList from '@/features/letter-types/JenisSuratList';
+import JenisSuratForm from '@/features/letter-types/JenisSuratForm';
+import GaleriList from '@/features/gallery/GaleriList';
+import Pengaturan from '@/features/settings/Pengaturan';
 
 // Public Pages
 import Beranda from '@/features/public/Beranda';
@@ -28,6 +33,7 @@ import LayananSurat from '@/features/public/LayananSurat';
 import CekStatusSurat from '@/features/public/CekStatusSurat';
 import PengaduanPublik from '@/features/public/PengaduanPublik';
 import Kontak from '@/features/public/Kontak';
+import GaleriPublik from '@/features/public/GaleriPublik';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,6 +70,7 @@ function App() {
             <Route path="/profil" element={<ProfilDesa />} />
             <Route path="/berita" element={<BeritaPublik />} />
             <Route path="/berita/:slug" element={<BeritaDetail />} />
+            <Route path="/galeri" element={<GaleriPublik />} />
             <Route path="/layanan-surat" element={<LayananSurat />} />
             <Route path="/layanan-surat/status" element={<CekStatusSurat />} />
             <Route path="/pengaduan" element={<PengaduanPublik />} />
@@ -72,6 +79,7 @@ function App() {
 
           {/* Admin Panel */}
           <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/forgot-password" element={<ForgotPassword />} />
           <Route
             path="/admin"
             element={
@@ -90,14 +98,19 @@ function App() {
             <Route path="keluarga/:id" element={<FamilyForm />} />
             <Route path="surat/permohonan" element={<SuratList />} />
             <Route path="surat/permohonan/:id" element={<SuratDetail />} />
+            <Route path="surat/jenis-surat" element={<JenisSuratList />} />
+            <Route path="surat/jenis-surat/tambah" element={<JenisSuratForm />} />
+            <Route path="surat/jenis-surat/:id" element={<JenisSuratForm />} />
             <Route path="berita" element={<BeritaList />} />
             <Route path="berita/tambah" element={<BeritaForm />} />
             <Route path="berita/:id" element={<BeritaForm />} />
             <Route path="pengumuman" element={<PengumumanList />} />
             <Route path="pengaduan" element={<PengaduanList />} />
+            <Route path="galeri" element={<GaleriList />} />
             <Route path="pengguna" element={<PenggunaList />} />
             <Route path="pengguna/tambah" element={<PenggunaForm />} />
             <Route path="pengguna/:id" element={<PenggunaForm />} />
+            <Route path="pengaturan" element={<Pengaturan />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -11,7 +11,7 @@ class DesaProfile extends Model
     protected $fillable = [
         'nama_desa', 'kecamatan', 'kabupaten', 'provinsi', 'kode_pos',
         'alamat_kantor', 'nama_kepala_desa', 'telp', 'email', 'logo_path',
-        'visi', 'misi', 'sejarah', 'luas_wilayah', 'jumlah_dusun',
+        'visi', 'misi', 'sejarah', 'sambutan_kepala_desa', 'luas_wilayah', 'jumlah_dusun',
         'koordinat_lat', 'koordinat_lng',
     ];
 

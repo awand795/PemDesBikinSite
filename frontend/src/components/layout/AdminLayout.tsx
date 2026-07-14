@@ -4,142 +4,258 @@ import { useAuthStore } from '@/stores/authStore';
 import {
   LayoutDashboard, Users, UserCircle, FileText, Newspaper,
   Megaphone, MessageSquare, Image, Settings, LogOut, Menu,
-  X, ChevronDown, Home, Shield,
+  X, Home, Shield, FileStack, ChevronLeft, ExternalLink, Bell,
 } from 'lucide-react';
 import clsx from 'clsx';
 
-const menuItems = [
-  { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/admin/penduduk', label: 'Data Penduduk', icon: Users },
-  { path: '/admin/keluarga', label: 'Kartu Keluarga', icon: UserCircle },
-  { path: '/admin/surat/permohonan', label: 'Surat Menyurat', icon: FileText },
-  { path: '/admin/berita', label: 'Berita', icon: Newspaper },
-  { path: '/admin/pengumuman', label: 'Pengumuman', icon: Megaphone },
-  { path: '/admin/pengaduan', label: 'Pengaduan', icon: MessageSquare },
-  { path: '/admin/pengguna', label: 'Pengguna', icon: Shield },
+function hasPermission(userPermissions: string[], required: string | string[]): boolean {
+  if (!userPermissions || userPermissions.length === 0) return false;
+  const needed = Array.isArray(required) ? required : [required];
+  return needed.some((p) => userPermissions.includes(p));
+}
+
+interface MenuItem {
+  path: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  permissions?: string | string[];
+}
+
+const menuGroups: { label: string; items: MenuItem[] }[] = [
+  {
+    label: 'Utama',
+    items: [
+      { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, permissions: 'dashboard.view' },
+    ],
+  },
+  {
+    label: 'Kependudukan',
+    items: [
+      { path: '/admin/penduduk', label: 'Data Penduduk', icon: Users, permissions: 'residents.view' },
+      { path: '/admin/keluarga', label: 'Kartu Keluarga', icon: UserCircle, permissions: 'families.view' },
+    ],
+  },
+  {
+    label: 'Pelayanan',
+    items: [
+      { path: '/admin/surat/permohonan', label: 'Surat Menyurat', icon: FileText, permissions: 'letters.view' },
+      { path: '/admin/surat/jenis-surat', label: 'Jenis Surat', icon: FileStack, permissions: 'letter_types.view' },
+    ],
+  },
+  {
+    label: 'Konten',
+    items: [
+      { path: '/admin/berita', label: 'Berita', icon: Newspaper, permissions: 'news.view' },
+      { path: '/admin/pengumuman', label: 'Pengumuman', icon: Megaphone, permissions: 'announcements.view' },
+      { path: '/admin/galeri', label: 'Galeri', icon: Image, permissions: 'gallery.view' },
+    ],
+  },
+  {
+    label: 'Lainnya',
+    items: [
+      { path: '/admin/pengaduan', label: 'Pengaduan', icon: MessageSquare, permissions: 'complaints.view' },
+      { path: '/admin/pengguna', label: 'Pengguna', icon: Shield, permissions: 'users.view' },
+      { path: '/admin/pengaturan', label: 'Pengaturan', icon: Settings, permissions: ['settings.view', 'desa_profile.view'] },
+    ],
+  },
 ];
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const { user, logout } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const userPermissions = user?.permissions?.map((p: any) => typeof p === 'string' ? p : p.name) || [];
 
   const handleLogout = async () => {
     await logout();
     navigate('/admin/login');
   };
 
+  const isActive = (path: string) => {
+    if (path === '/admin/dashboard') return location.pathname === path;
+    return location.pathname.startsWith(path);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar Overlay (mobile) */}
+    <div className="min-h-screen bg-slate-50 flex">
+      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
+      {/* ===== Sidebar ===== */}
       <aside
         className={clsx(
-          'fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out',
+          'fixed lg:static inset-y-0 left-0 z-50 bg-slate-900 flex flex-col transition-all duration-300 ease-in-out',
+          collapsed ? 'w-16' : 'w-64',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >
-        <div className="h-full flex flex-col">
-          {/* Logo */}
-          <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
-            <Link to="/admin/dashboard" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <Home className="w-4 h-4 text-white" />
+        {/* Logo */}
+        <div className={clsx(
+          'flex items-center border-b border-slate-800/50 h-16 lg:h-20 shrink-0',
+          collapsed ? 'justify-center px-2' : 'justify-between px-5'
+        )}>
+          <Link to="/admin/dashboard" className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20 shrink-0">
+              <Home className="w-4 h-4 text-white" />
+            </div>
+            {!collapsed && (
+              <div className="flex flex-col min-w-0">
+                <span className="font-display font-bold text-white text-base">PemDes</span>
+                <span className="text-[10px] text-slate-500 tracking-wider uppercase">Administrator</span>
               </div>
-              <span className="font-bold text-lg text-gray-800">PemDes</span>
-            </Link>
+            )}
+          </Link>
+          {!collapsed && (
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-gray-400 hover:text-gray-600"
+              className="lg:hidden text-slate-400 hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
-          </div>
+          )}
+        </div>
 
-          {/* Menu */}
-          <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path ||
-                (item.path !== '/admin/dashboard' && location.pathname.startsWith(item.path));
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setSidebarOpen(false)}
-                  className={clsx(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-                    isActive
-                      ? 'bg-primary-50 text-primary-700'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                  )}
-                >
-                  <Icon className="w-5 h-5" />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-4 space-y-1">
+          {menuGroups.map((group) => {
+            const visibleItems = group.items.filter((item) =>
+              !item.permissions || hasPermission(userPermissions, item.permissions)
+            );
+            if (visibleItems.length === 0) return null;
 
-          {/* User menu */}
-          <div className="px-3 py-4 border-t border-gray-200">
-            <div className="flex items-center gap-3 px-3 py-2">
-              <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-primary-700">
-                  {user?.name?.charAt(0)?.toUpperCase() || '?'}
-                </span>
+            return (
+              <div key={group.label} className="mb-4">
+                {!collapsed && (
+                  <p className="px-3 mb-1 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
+                    {group.label}
+                  </p>
+                )}
+                <div className="space-y-0.5">
+                  {visibleItems.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.path);
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => setSidebarOpen(false)}
+                        className={clsx(
+                          'flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200',
+                          collapsed ? 'justify-center px-0 py-2.5 mx-auto w-10' : 'px-3 py-2.5',
+                          active
+                            ? 'bg-primary-600/20 text-primary-400 shadow-sm'
+                            : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                        )}
+                        title={collapsed ? item.label : undefined}
+                      >
+                        <Icon className={clsx('shrink-0', collapsed ? 'w-5 h-5' : 'w-5 h-5')} />
+                        {!collapsed && <span>{item.label}</span>}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
+            );
+          })}
+        </nav>
+
+        {/* Collapse toggle (desktop) */}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="hidden lg:flex items-center justify-center h-10 border-t border-slate-800/50 text-slate-500 hover:text-slate-300 hover:bg-slate-800/30 transition-colors"
+        >
+          <ChevronLeft className={clsx('w-4 h-4 transition-transform duration-300', collapsed && 'rotate-180')} />
+        </button>
+
+        {/* User info */}
+        <div className={clsx(
+          'border-t border-slate-800/50 p-3',
+          collapsed && 'flex flex-col items-center'
+        )}>
+          <div className={clsx(
+            'flex items-center gap-3',
+            collapsed ? 'flex-col' : ''
+          )}>
+            <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center shrink-0 shadow-sm">
+              <span className="text-sm font-bold text-white">
+                {user?.name?.charAt(0)?.toUpperCase() || '?'}
+              </span>
+            </div>
+            {!collapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-sm font-medium text-slate-200 truncate">
                   {user?.name || 'User'}
                 </p>
-                <p className="text-xs text-gray-500 truncate">
+                <p className="text-xs text-slate-500 truncate">
                   {user?.roles?.[0]?.name || '-'}
                 </p>
               </div>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3 py-2.5 mt-1 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-            >
-              <LogOut className="w-5 h-5" />
-              Keluar
-            </button>
+            )}
           </div>
+          {!collapsed && (
+            <div className="flex gap-1 mt-2">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors w-full"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                Keluar
+              </button>
+            </div>
+          )}
         </div>
       </aside>
 
-      {/* Main Content */}
+      {/* ===== Main Area ===== */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top navbar */}
-        <header className="bg-white border-b border-gray-200 px-4 lg:px-6 py-3 flex items-center justify-between lg:justify-end">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="lg:hidden text-gray-500 hover:text-gray-700"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
-          <div className="flex items-center gap-4">
+        {/* ===== Top Header ===== */}
+        <header className={clsx(
+          'sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200/50',
+          'h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8'
+        )}>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2 -ml-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            {/* Breadcrumb placeholder */}
+            <div className="hidden sm:flex items-center gap-2 text-sm text-slate-400">
+              <span className="text-slate-600 font-medium capitalize">
+                {location.pathname.split('/').pop()?.replace(/-/g, ' ') || 'Dashboard'}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
             <Link
               to="/"
-              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
             >
+              <ExternalLink className="w-3.5 h-3.5" />
               Lihat Website
             </Link>
+            <button className="relative p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-white" />
+            </button>
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 p-4 lg:p-6 overflow-auto">
-          <Outlet />
+        {/* ===== Page Content ===== */}
+        <main className="flex-1 p-4 lg:p-8 overflow-auto">
+          <div className="mx-auto max-w-7xl animate-fade-in">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

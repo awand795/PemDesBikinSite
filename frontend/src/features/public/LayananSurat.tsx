@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import api from '@/services/api';
 import { Link } from 'react-router-dom';
-import { CheckCircle, FileText, ArrowRight } from 'lucide-react';
+import { CheckCircle, FileText, ArrowRight, Clock, ClipboardList, AlertCircle } from 'lucide-react';
 
 export default function LayananSurat() {
   const [step, setStep] = useState<'form' | 'success'>('form');
@@ -34,6 +34,7 @@ export default function LayananSurat() {
   });
 
   const types = Array.isArray(letterTypes) ? letterTypes : [];
+  const selectedType = types.find((t: any) => t.id === Number(form.letter_type_id));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,31 +43,30 @@ export default function LayananSurat() {
 
   if (step === 'success' && result) {
     return (
-      <div className="max-w-lg mx-auto px-4 py-16 text-center">
-        <div className="bg-white rounded-2xl border border-gray-200 p-8">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+      <div className="max-w-lg mx-auto px-4 py-20">
+        <div className="card p-8 text-center animate-scale-in">
+          <div className="w-20 h-20 mx-auto bg-gradient-to-br from-success-500 to-emerald-600 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-success-500/20">
+            <CheckCircle className="w-10 h-10 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Permohonan Terkirim!</h2>
-          <p className="text-gray-500 mb-4">Simpan nomor pengajuan berikut:</p>
-          <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-6">
-            <p className="text-2xl font-bold text-primary-700 tracking-wider">
+          <h2 className="text-2xl font-display font-bold text-slate-900 mb-2">Permohonan Terkirim!</h2>
+          <p className="text-slate-500 mb-6">Simpan nomor pengajuan berikut untuk mengecek status:</p>
+          <div className="bg-gradient-to-r from-primary-50 to-secondary-50 border border-primary-100 rounded-xl p-5 mb-6 inline-block">
+            <p className="text-xs text-primary-600 font-medium uppercase tracking-wider mb-1">Nomor Pengajuan</p>
+            <p className="text-2xl font-bold text-primary-700 tracking-wider font-mono">
               {result.nomor_pengajuan}
             </p>
           </div>
-          <p className="text-sm text-gray-500 mb-6">
-            Gunakan nomor pengajuan dan NIK Anda untuk mengecek status surat.
-          </p>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 max-w-xs mx-auto">
             <Link
               to="/layanan-surat/status"
-              className="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
+              className="btn-primary btn-md w-full"
             >
+              <ClipboardList className="w-4 h-4" />
               Cek Status Surat
             </Link>
             <button
               onClick={() => { setStep('form'); setForm({ letter_type_id: '', nik: '', nama_pemohon: '', keperluan: '' }); }}
-              className="px-6 py-3 border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+              className="btn-secondary btn-md w-full"
             >
               Ajukan Lagi
             </button>
@@ -77,32 +77,74 @@ export default function LayananSurat() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-8">
-        <FileText className="w-12 h-12 text-primary-500 mx-auto mb-2" />
-        <h1 className="text-3xl font-bold text-gray-900">Layanan Surat Online</h1>
-        <p className="text-gray-500 mt-2">Ajukan surat keterangan desa secara online</p>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      {/* Header */}
+      <div className="text-center mb-10">
+        <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-primary-500/20">
+          <FileText className="w-8 h-8 text-white" />
+        </div>
+        <h1 className="text-3xl lg:text-4xl font-display font-bold text-slate-900">
+          Layanan Surat Online
+        </h1>
+        <p className="text-slate-500 mt-2 text-lg">
+          Ajukan surat keterangan desa secara online, cepat, dan mudah
+        </p>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
-        <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="card p-6 sm:p-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Jenis Surat */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Surat *</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              Jenis Surat <span className="text-danger-500">*</span>
+            </label>
             <select
               required
               value={form.letter_type_id}
               onChange={(e) => setForm({ ...form, letter_type_id: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+              className="input"
             >
               <option value="">Pilih jenis surat...</option>
               {types.map((t: any) => (
                 <option key={t.id} value={t.id}>{t.nama}</option>
               ))}
             </select>
+
+            {selectedType && (
+              <div className="mt-4 p-5 bg-gradient-to-br from-primary-50 to-secondary-50 rounded-xl border border-primary-100/50">
+                {selectedType.deskripsi && (
+                  <p className="text-sm text-slate-700 mb-3">{selectedType.deskripsi}</p>
+                )}
+                <div className="flex flex-wrap gap-4 text-sm">
+                  {selectedType.estimasi_hari && (
+                    <span className="inline-flex items-center gap-1.5 text-primary-700 font-medium">
+                      <Clock className="w-4 h-4" />
+                      Estimasi: {selectedType.estimasi_hari} hari kerja
+                    </span>
+                  )}
+                </div>
+                {selectedType.persyaratan?.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-primary-100/50">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Persyaratan:</p>
+                    <ul className="space-y-1">
+                      {selectedType.persyaratan.map((s: string, i: number) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1.5 shrink-0" />
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
+          {/* NIK */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">NIK *</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              NIK <span className="text-danger-500">*</span>
+            </label>
             <input
               type="text"
               required
@@ -111,31 +153,37 @@ export default function LayananSurat() {
               title="16 digit angka"
               value={form.nik}
               onChange={(e) => setForm({ ...form, nik: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-              placeholder="16 digit NIK"
+              className="input"
+              placeholder="16 digit NIK sesuai KTP"
             />
           </div>
 
+          {/* Nama */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              Nama Lengkap <span className="text-danger-500">*</span>
+            </label>
             <input
               type="text"
               required
               value={form.nama_pemohon}
               onChange={(e) => setForm({ ...form, nama_pemohon: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+              className="input"
               placeholder="Nama sesuai KTP"
             />
           </div>
 
+          {/* Keperluan */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Keperluan *</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              Keperluan <span className="text-danger-500">*</span>
+            </label>
             <textarea
               required
               value={form.keperluan}
               onChange={(e) => setForm({ ...form, keperluan: e.target.value })}
               rows={4}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+              className="input"
               placeholder="Jelaskan keperluan pengajuan surat ini"
             />
           </div>
@@ -143,10 +191,13 @@ export default function LayananSurat() {
           <button
             type="submit"
             disabled={submitMutation.isPending}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 disabled:opacity-50 transition-colors"
+            className="btn-primary btn-lg w-full"
           >
             {submitMutation.isPending ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Memproses...
+              </>
             ) : (
               <>
                 Ajukan Surat
@@ -157,15 +208,23 @@ export default function LayananSurat() {
         </form>
 
         {submitMutation.isError && (
-          <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-            {(submitMutation.error as any)?.response?.data?.message || 'Gagal mengajukan surat. Silakan coba lagi.'}
+          <div className="mt-5 p-4 bg-danger-50 border border-danger-100 rounded-xl flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-danger-500 shrink-0 mt-0.5" />
+            <p className="text-sm text-danger-700">
+              {(submitMutation.error as any)?.response?.data?.message || 'Gagal mengajukan surat. Silakan coba lagi.'}
+            </p>
           </div>
         )}
       </div>
 
       <div className="text-center mt-6">
-        <Link to="/layanan-surat/status" className="text-sm text-primary-600 hover:text-primary-700">
-          Sudah punya nomor pengajuan? Cek status →
+        <Link
+          to="/layanan-surat/status"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors"
+        >
+          Sudah punya nomor pengajuan?
+          <ArrowRight className="w-4 h-4" />
+          Cek status
         </Link>
       </div>
     </div>

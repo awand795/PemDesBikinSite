@@ -4,6 +4,51 @@ import { useParams, Link } from 'react-router-dom';
 import api from '@/services/api';
 import { ArrowLeft, CheckCircle, XCircle, Download } from 'lucide-react';
 
+function DownloadPdfButton({ id }: { id: string }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleDownload = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get(`/letter-requests/${id}/print`);
+      const { pdf, filename } = data;
+      const byteCharacters = atob(pdf);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename || 'surat.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Download failed:', err);
+      alert('Gagal mengunduh PDF. Silakan coba lagi.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-4">
+      <button
+        onClick={handleDownload}
+        disabled={loading}
+        className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+      >
+        <Download className="w-4 h-4" />
+        {loading ? 'Mengunduh...' : 'Download PDF Surat'}
+      </button>
+    </div>
+  );
+}
+
 const statusConfig: Record<string, { color: string; bg: string; label: string }> = {
   menunggu: { color: 'text-yellow-700', bg: 'bg-yellow-50', label: 'Menunggu' },
   diproses: { color: 'text-blue-700', bg: 'bg-blue-50', label: 'Diproses' },
@@ -113,12 +158,7 @@ export default function SuratDetail() {
         )}
 
         {item.nomor_surat && (
-          <div className="mt-4">
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">
-              <Download className="w-4 h-4" />
-              Download PDF Surat
-            </button>
-          </div>
+          <DownloadPdfButton id={id!} />
         )}
       </div>
     </div>

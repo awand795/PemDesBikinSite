@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\DesaProfile;
 use App\Models\LetterRequest;
 use App\Models\Resident;
 use App\Services\LetterNumberService;
+use App\Services\LetterTemplateRenderer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,6 +16,7 @@ class LetterRequestController extends Controller
 {
     public function __construct(
         private readonly LetterNumberService $letterNumberService,
+        private readonly LetterTemplateRenderer $templateRenderer,
     ) {}
 
     public function index(Request $request): JsonResponse
@@ -37,8 +40,17 @@ class LetterRequestController extends Controller
             });
         }
 
-        $requests = $query->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 15));
+        // Sorting
+        $sortBy = $request->get('sort_by', 'created_at');
+        $sortDir = $request->get('sort_dir', 'desc');
+        $allowedSort = ['nomor_pengajuan', 'nama_pemohon', 'tanggal_pengajuan', 'status', 'created_at'];
+        if (in_array($sortBy, $allowedSort)) {
+            $query->orderBy($sortBy, $sortDir === 'asc' ? 'asc' : 'desc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $requests = $query->paginate($request->get('per_page', 15));
 
         return response()->json($requests);
     }
@@ -124,13 +136,26 @@ class LetterRequestController extends Controller
     public function print(LetterRequest $letterRequest): JsonResponse
     {
         $letterRequest->load(['letterType', 'resident']);
+        $desa = DesaProfile::firstOrCreate([]);
 
-        $data = [
-            'letter' => $letterRequest,
-            'desa' => \App\Models\DesaProfile::first(),
-        ];
+        $renderedContent = $this->templateRenderer->render($letterRequest, $desa);
 
-        $pdf = Pdf::loadView('pdf.surat', $data);
+        if (!empty($renderedContent)) {
+            // Use dynamic template content
+            $html = view('pdf.surat_dinamis', [
+                'letter' => $letterRequest,
+                'desa' => $desa,
+                'dynamicContent' => $renderedContent,
+            ])->render();
+        } else {
+            // Fallback to static blade template
+            $html = view('pdf.surat', [
+                'letter' => $letterRequest,
+                'desa' => $desa,
+            ])->render();
+        }
+
+        $pdf = Pdf::loadHTML($html);
         $pdf->setPaper('A4', 'portrait');
 
         return response()->json([

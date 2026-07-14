@@ -33,8 +33,17 @@ class ResidentController extends Controller
             $query->where('is_active', $status === 'aktif');
         }
 
-        $residents = $query->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 15));
+        // Sorting
+        $sortBy = $request->get('sort_by', 'created_at');
+        $sortDir = $request->get('sort_dir', 'desc');
+        $allowedSort = ['nik', 'nama_lengkap', 'is_active', 'created_at', 'jenis_kelamin'];
+        if (in_array($sortBy, $allowedSort)) {
+            $query->orderBy($sortBy, $sortDir === 'asc' ? 'asc' : 'desc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $residents = $query->paginate($request->get('per_page', 15));
 
         return response()->json($residents);
     }
@@ -56,6 +65,7 @@ class ResidentController extends Controller
             'golongan_darah' => 'nullable|string|max:5',
             'kewarganegaraan' => 'nullable|string|max:10',
             'no_hp' => 'nullable|string|max:20',
+            'foto_path' => 'nullable|string|max:500',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -86,6 +96,7 @@ class ResidentController extends Controller
             'golongan_darah' => 'nullable|string|max:5',
             'kewarganegaraan' => 'nullable|string|max:10',
             'no_hp' => 'nullable|string|max:20',
+            'foto_path' => 'nullable|string|max:500',
             'is_active' => 'nullable|boolean',
         ]);
 

@@ -1,26 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import api from '@/services/api';
 import { ArrowLeft, Save } from 'lucide-react';
+import FieldError from '@/components/ui/FieldError';
+import { residentSchema, type ResidentFormData } from './schema';
 
 export default function ResidentForm() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEdit = !!id;
 
-  const [form, setForm] = useState({
-    nik: '',
-    nama_lengkap: '',
-    jenis_kelamin: 'L' as 'L' | 'P',
-    tempat_lahir: '',
-    tanggal_lahir: '',
-    agama: '',
-    pendidikan_terakhir: '',
-    pekerjaan: '',
-    status_perkawinan: '',
-    no_hp: '',
-    family_id: '',
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<ResidentFormData>({
+    resolver: zodResolver(residentSchema),
+    defaultValues: {
+      nik: '',
+      nama_lengkap: '',
+      jenis_kelamin: 'L',
+      tempat_lahir: '',
+      tanggal_lahir: '',
+      agama: '',
+      pendidikan_terakhir: '',
+      pekerjaan: '',
+      status_perkawinan: '',
+      no_hp: '',
+      family_id: '',
+    },
   });
 
   // Load data for edit
@@ -35,7 +42,7 @@ export default function ResidentForm() {
 
   useEffect(() => {
     if (residentData) {
-      setForm({
+      reset({
         nik: residentData.nik || '',
         nama_lengkap: residentData.nama_lengkap || '',
         jenis_kelamin: residentData.jenis_kelamin || 'L',
@@ -49,7 +56,7 @@ export default function ResidentForm() {
         family_id: residentData.family_id?.toString() || '',
       });
     }
-  }, [residentData]);
+  }, [residentData, reset]);
 
   const { data: families } = useQuery({
     queryKey: ['families-list'],
@@ -69,9 +76,18 @@ export default function ResidentForm() {
     onSuccess: () => navigate('/admin/penduduk'),
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const payload = { ...form, family_id: form.family_id ? Number(form.family_id) : null };
+  const onSubmit = (formData: ResidentFormData) => {
+    const payload = {
+      ...formData,
+      family_id: formData.family_id ? Number(formData.family_id) : null,
+      tempat_lahir: formData.tempat_lahir || null,
+      tanggal_lahir: formData.tanggal_lahir || null,
+      agama: formData.agama || null,
+      pendidikan_terakhir: formData.pendidikan_terakhir || null,
+      pekerjaan: formData.pekerjaan || null,
+      status_perkawinan: formData.status_perkawinan || null,
+      no_hp: formData.no_hp || null,
+    };
     if (isEdit) {
       updateMutation.mutate(payload);
     } else {
@@ -94,120 +110,115 @@ export default function ResidentForm() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">NIK * (16 digit)</label>
             <input
               type="text"
-              required
               maxLength={16}
-              pattern="[0-9]{16}"
-              value={form.nik}
-              onChange={(e) => setForm({ ...form, nik: e.target.value })}
+              {...register('nik')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.nik?.message} />
           </div>
 
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
             <input
               type="text"
-              required
-              value={form.nama_lengkap}
-              onChange={(e) => setForm({ ...form, nama_lengkap: e.target.value })}
+              {...register('nama_lengkap')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.nama_lengkap?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin *</label>
             <select
-              required
-              value={form.jenis_kelamin}
-              onChange={(e) => setForm({ ...form, jenis_kelamin: e.target.value as 'L' | 'P' })}
+              {...register('jenis_kelamin')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             >
               <option value="L">Laki-laki</option>
               <option value="P">Perempuan</option>
             </select>
+            <FieldError message={errors.jenis_kelamin?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">No. HP</label>
             <input
               type="text"
-              value={form.no_hp}
-              onChange={(e) => setForm({ ...form, no_hp: e.target.value })}
+              {...register('no_hp')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.no_hp?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Tempat Lahir</label>
             <input
               type="text"
-              value={form.tempat_lahir}
-              onChange={(e) => setForm({ ...form, tempat_lahir: e.target.value })}
+              {...register('tempat_lahir')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.tempat_lahir?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
             <input
               type="date"
-              value={form.tanggal_lahir}
-              onChange={(e) => setForm({ ...form, tanggal_lahir: e.target.value })}
+              {...register('tanggal_lahir')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.tanggal_lahir?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Agama</label>
             <input
               type="text"
-              value={form.agama}
-              onChange={(e) => setForm({ ...form, agama: e.target.value })}
+              {...register('agama')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.agama?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Pendidikan</label>
             <input
               type="text"
-              value={form.pendidikan_terakhir}
-              onChange={(e) => setForm({ ...form, pendidikan_terakhir: e.target.value })}
+              {...register('pendidikan_terakhir')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.pendidikan_terakhir?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Pekerjaan</label>
             <input
               type="text"
-              value={form.pekerjaan}
-              onChange={(e) => setForm({ ...form, pekerjaan: e.target.value })}
+              {...register('pekerjaan')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.pekerjaan?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Status Perkawinan</label>
             <input
               type="text"
-              value={form.status_perkawinan}
-              onChange={(e) => setForm({ ...form, status_perkawinan: e.target.value })}
+              {...register('status_perkawinan')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             />
+            <FieldError message={errors.status_perkawinan?.message} />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Kartu Keluarga</label>
             <select
-              value={form.family_id}
-              onChange={(e) => setForm({ ...form, family_id: e.target.value })}
+              {...register('family_id')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
             >
               <option value="">-- Pilih KK --</option>
@@ -215,6 +226,7 @@ export default function ResidentForm() {
                 <option key={f.id} value={f.id}>{f.no_kk} - {f.nama_kepala_keluarga}</option>
               ))}
             </select>
+            <FieldError message={errors.family_id?.message} />
           </div>
         </div>
 
