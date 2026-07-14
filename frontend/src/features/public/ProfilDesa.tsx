@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '@/services/api';
-import { MapPin, Phone, Mail, Users } from 'lucide-react';
+import { MapPin, Phone, Mail, Users, TreePine, BookOpen, Target, Quote } from 'lucide-react';
 
 export default function ProfilDesa() {
   const { data: profile } = useQuery({
@@ -13,108 +13,158 @@ export default function ProfilDesa() {
 
   if (!profile) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin" />
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-slate-400">Memuat profil desa...</p>
+        </div>
       </div>
     );
   }
 
+  const infoItems = [
+    { icon: MapPin, label: 'Alamat', value: `${profile.alamat_kantor}\nKec. ${profile.kecamatan}\nKab. ${profile.kabupaten}\nProv. ${profile.provinsi}` },
+    { icon: Users, label: 'Kepala Desa', value: profile.nama_kepala_desa || '-' },
+  ];
+  if (profile.telp) infoItems.push({ icon: Phone, label: 'Telepon', value: profile.telp });
+  if (profile.email) infoItems.push({ icon: Mail, label: 'Email', value: profile.email });
+
+  const wilayahItems = [
+    { label: 'Luas Wilayah', value: `${profile.luas_wilayah || '-'} km²` },
+    { label: 'Jumlah Dusun', value: profile.jumlah_dusun || '-' },
+    { label: 'Kode Pos', value: profile.kode_pos || '-' },
+  ];
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-3xl font-bold text-gray-900">Profil {profile.nama_desa}</h1>
-        <p className="text-gray-500 mt-2">Mengenal lebih dekat desa kami</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Info */}
-        <div className="lg:col-span-2 space-y-8">
-          {/* Sejarah */}
-          {profile.sejarah && (
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Sejarah Desa</h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">{profile.sejarah}</p>
+    <div>
+      {/* ===== HERO ===== */}
+      <section className="relative bg-slate-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-primary-950 to-slate-900" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-5">
+              <BookOpen className="w-4 h-4 text-primary-400" />
+              Profil Desa
             </div>
-          )}
-
-          {/* Visi & Misi */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {profile.visi && (
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Visi</h2>
-                <p className="text-gray-600 leading-relaxed">{profile.visi}</p>
-              </div>
-            )}
-            {profile.misi && (
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Misi</h2>
-                <p className="text-gray-600 leading-relaxed whitespace-pre-line">{profile.misi}</p>
-              </div>
-            )}
+            <h1 className="text-4xl lg:text-5xl font-display font-bold text-white leading-tight">
+              Mengenal{' '}
+              <span className="gradient-text">{profile.nama_desa || 'Desa Kami'}</span>
+            </h1>
+            <p className="mt-4 text-lg text-slate-300 leading-relaxed">
+              Informasi lengkap tentang desa, sejarah, visi misi, dan data wilayah
+            </p>
           </div>
         </div>
+      </section>
 
-        {/* Sidebar Info */}
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Informasi Desa</h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-primary-500 mt-0.5" />
-                <div>
-                  <p className="font-medium text-gray-700">Alamat</p>
-                  <p className="text-gray-500">
-                    {profile.alamat_kantor}<br />
-                    Kec. {profile.kecamatan}<br />
-                    Kab. {profile.kabupaten}<br />
-                    Prov. {profile.provinsi}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+          {/* ===== Main Content ===== */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Sejarah */}
+            {profile.sejarah && (
+              <div className="card p-6 lg:p-8 card-hover">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-white" />
+                  </div>
+                  <h2 className="text-xl font-display font-bold text-slate-900">Sejarah Desa</h2>
+                </div>
+                <div className="relative pl-6 border-l-2 border-primary-100">
+                  <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-primary-500 -translate-x-[5px]" />
+                  <p className="text-slate-600 leading-relaxed whitespace-pre-line">
+                    {profile.sejarah}
                   </p>
                 </div>
               </div>
-              {profile.telp && (
-                <div className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 text-primary-500 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-gray-700">Telepon</p>
-                    <p className="text-gray-500">{profile.telp}</p>
+            )}
+
+            {/* Visi & Misi */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {profile.visi && (
+                <div className="card p-6 lg:p-8 card-hover">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-orange-600 rounded-xl flex items-center justify-center">
+                      <Eye className="w-5 h-5 text-white" />
+                    </div>
+                    <h2 className="text-xl font-display font-bold text-slate-900">Visi</h2>
+                  </div>
+                  <div className="bg-gradient-to-br from-accent-50 to-orange-50 rounded-xl p-5 border border-accent-100/50">
+                    <Quote className="w-6 h-6 text-accent-500 mb-2" />
+                    <p className="text-slate-700 leading-relaxed italic">{profile.visi}</p>
                   </div>
                 </div>
               )}
-              {profile.email && (
-                <div className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 text-primary-500 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-gray-700">Email</p>
-                    <p className="text-gray-500">{profile.email}</p>
+              {profile.misi && (
+                <div className="card p-6 lg:p-8 card-hover">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-10 h-10 bg-gradient-to-br from-secondary-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                      <Target className="w-5 h-5 text-white" />
+                    </div>
+                    <h2 className="text-xl font-display font-bold text-slate-900">Misi</h2>
+                  </div>
+                  <div className="bg-gradient-to-br from-secondary-50 to-emerald-50 rounded-xl p-5 border border-secondary-100/50">
+                    <p className="text-slate-700 leading-relaxed whitespace-pre-line">{profile.misi}</p>
                   </div>
                 </div>
               )}
-              <div className="flex items-start gap-3">
-                <Users className="w-4 h-4 text-primary-500 mt-0.5" />
-                <div>
-                  <p className="font-medium text-gray-700">Kepala Desa</p>
-                  <p className="text-gray-500">{profile.nama_kepala_desa || '-'}</p>
-                </div>
-              </div>
             </div>
           </div>
 
-          {profile.luas_wilayah && (
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="font-semibold text-gray-900 mb-4">Wilayah</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Luas Wilayah</span>
-                  <span className="font-medium">{profile.luas_wilayah} km²</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Jumlah Dusun</span>
-                  <span className="font-medium">{profile.jumlah_dusun}</span>
-                </div>
+          {/* ===== Sidebar ===== */}
+          <div className="space-y-6">
+            {/* Informasi Desa */}
+            <div className="card p-6 card-hover">
+              <h3 className="font-display font-semibold text-slate-900 mb-5 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-primary-500" />
+                Informasi Desa
+              </h3>
+              <div className="space-y-4">
+                {infoItems.map((item) => (
+                  <div key={item.label} className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-primary-50 rounded-lg flex items-center justify-center shrink-0">
+                      <item.icon className="w-4 h-4 text-primary-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">{item.label}</p>
+                      <p className="text-sm text-slate-800 mt-0.5 whitespace-pre-line">{item.value}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          )}
+
+            {/* Wilayah */}
+            <div className="card p-6 card-hover">
+              <h3 className="font-display font-semibold text-slate-900 mb-5 flex items-center gap-2">
+                <TreePine className="w-5 h-5 text-secondary-500" />
+                Wilayah
+              </h3>
+              <div className="space-y-3">
+                {wilayahItems.map((item) => (
+                  <div key={item.label} className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-lg">
+                    <span className="text-sm text-slate-500">{item.label}</span>
+                    <span className="text-sm font-semibold text-slate-800">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 text-center">
+              <p className="text-white font-display font-semibold text-lg mb-1">Butuh Bantuan?</p>
+              <p className="text-primary-200 text-sm mb-4">Hubungi kantor desa untuk informasi lebih lanjut</p>
+              <a
+                href={profile.telp ? `tel:${profile.telp}` : '#'}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white text-primary-700 rounded-xl text-sm font-semibold hover:shadow-lg transition-all"
+              >
+                <Phone className="w-4 h-4" />
+                Hubungi Sekarang
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
