@@ -36,13 +36,13 @@ export default function CekStatusSurat() {
     <div className="max-w-lg mx-auto px-4 py-12">
       <div className="text-center mb-8">
         <FileText className="w-12 h-12 text-primary-500 mx-auto mb-2" />
-        <h1 className="text-3xl font-bold text-gray-900">Cek Status Surat</h1>
-        <p className="text-gray-500 mt-2">Masukkan nomor pengajuan dan NIK</p>
+        <h1 className="text-3xl font-bold text-text-primary">Cek Status Surat</h1>
+        <p className="text-text-secondary mt-2">Masukkan nomor pengajuan dan NIK</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-4 mb-6">
+      <form onSubmit={handleSubmit} className="bg-surface rounded-xl border border-border p-6 space-y-4 mb-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Nomor Pengajuan</label>
+          <label className="block text-sm font-medium text-text-primary mb-1">Nomor Pengajuan</label>
           <input
             type="text"
             required
@@ -53,7 +53,7 @@ export default function CekStatusSurat() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">NIK</label>
+          <label className="block text-sm font-medium text-text-primary mb-1">NIK</label>
           <input
             type="text"
             required
@@ -86,39 +86,39 @@ export default function CekStatusSurat() {
       )}
 
       {data && (
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Detail Permohonan</h3>
+        <div className="bg-surface rounded-xl border border-border p-6">
+          <h3 className="font-semibold text-text-primary mb-4">Detail Permohonan</h3>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-500">Jenis Surat</span>
+              <span className="text-text-secondary">Jenis Surat</span>
               <span className="font-medium">{data.letter_type?.nama}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Nama Pemohon</span>
+              <span className="text-text-secondary">Nama Pemohon</span>
               <span className="font-medium">{data.nama_pemohon}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Tanggal Pengajuan</span>
+              <span className="text-text-secondary">Tanggal Pengajuan</span>
               <span className="font-medium">
                 {data.tanggal_pengajuan ? new Date(data.tanggal_pengajuan).toLocaleDateString('id-ID') : '-'}
               </span>
             </div>
             <div className="flex justify-between items-center pt-2 border-t">
-              <span className="text-gray-500">Status</span>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusConfig[data.status]?.bg || 'bg-gray-50'} ${statusConfig[data.status]?.color || 'text-gray-700'}`}>
+              <span className="text-text-secondary">Status</span>
+              <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusConfig[data.status]?.bg || 'bg-bg-subtle'} ${statusConfig[data.status]?.color || 'text-text-primary'}`}>
                 {statusConfig[data.status]?.label || data.status}
               </span>
             </div>
             {data.nomor_surat && (
               <div className="flex justify-between">
-                <span className="text-gray-500">Nomor Surat</span>
+                <span className="text-text-secondary">Nomor Surat</span>
                 <span className="font-medium">{data.nomor_surat}</span>
               </div>
             )}
             {data.catatan_admin && (
               <div className="pt-2 border-t">
-                <span className="text-gray-500 block mb-1">Catatan Admin</span>
-                <p className="text-gray-700">{data.catatan_admin}</p>
+                <span className="text-text-secondary block mb-1">Catatan Admin</span>
+                <p className="text-text-primary">{data.catatan_admin}</p>
               </div>
             )}
           </div>

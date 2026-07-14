@@ -108,19 +108,19 @@ export default function JenisSuratForm() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate('/admin/surat/jenis-surat')} className="text-gray-400 hover:text-gray-600">
+        <button onClick={() => navigate('/admin/surat/jenis-surat')} className="text-text-muted hover:text-text-secondary">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{isEdit ? 'Edit' : 'Tambah'} Jenis Surat</h1>
-          <p className="text-gray-500 text-sm">Kelola template dan persyaratan surat</p>
+          <h1 className="text-2xl font-bold text-text-primary">{isEdit ? 'Edit' : 'Tambah'} Jenis Surat</h1>
+          <p className="text-text-secondary text-sm">Kelola template dan persyaratan surat</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="bg-surface rounded-xl border border-border p-6 space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Kode *</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Kode *</label>
             <input
               type="text" required maxLength={20}
               value={form.kode}
@@ -130,7 +130,7 @@ export default function JenisSuratForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Estimasi (hari kerja)</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Estimasi (hari kerja)</label>
             <input
               type="number" min={1}
               value={form.estimasi_hari}
@@ -140,7 +140,7 @@ export default function JenisSuratForm() {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nama *</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Nama *</label>
             <input
               type="text" required
               value={form.nama}
@@ -151,7 +151,7 @@ export default function JenisSuratForm() {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Deskripsi</label>
             <textarea
               value={form.deskripsi}
               onChange={(e) => setForm({ ...form, deskripsi: e.target.value })}
@@ -163,7 +163,7 @@ export default function JenisSuratForm() {
 
         {/* Persyaratan */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Persyaratan</label>
+          <label className="block text-sm font-medium text-text-primary mb-2">Persyaratan</label>
           <div className="flex flex-wrap gap-2 mb-2">
             {form.persyaratan.map((s, i) => (
               <span key={i} className="inline-flex items-center gap-1 px-2 py-1 bg-primary-50 text-primary-700 text-xs rounded-full">
@@ -184,7 +184,7 @@ export default function JenisSuratForm() {
               className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 outline-none"
             />
             <button type="button" onClick={addSyarat}
-              className="px-3 py-2 bg-gray-100 text-gray-700 text-sm rounded-lg hover:bg-gray-200 transition-colors">
+              className="px-3 py-2 bg-gray-100 text-text-primary text-sm rounded-lg hover:bg-gray-200 transition-colors">
               <Plus className="w-4 h-4" />
             </button>
           </div>
@@ -192,20 +192,20 @@ export default function JenisSuratForm() {
 
         {/* Template Konten */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Template Konten Surat</label>
+          <label className="block text-sm font-medium text-text-primary mb-1">Template Konten Surat</label>
           <div className="flex flex-wrap gap-1.5 mb-2">
             {PLACEHOLDERS.map((p) => (
               <button
                 key={p}
                 type="button"
                 onClick={() => insertPlaceholder(p)}
-                className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded hover:bg-primary-100 hover:text-primary-700 transition-colors"
+                className="px-2 py-0.5 bg-gray-100 text-text-secondary text-xs rounded hover:bg-primary-100 hover:text-primary-700 transition-colors"
               >
                 {p}
               </button>
             ))}
           </div>
-          <p className="text-xs text-gray-400 mb-1">Klik placeholder untuk menyisipkan ke posisi kursor</p>
+          <p className="text-xs text-text-muted mb-1">Klik placeholder untuk menyisipkan ke posisi kursor</p>
           <textarea
             ref={templateRef}
             value={form.template_konten}
@@ -223,7 +223,7 @@ export default function JenisSuratForm() {
             onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
             className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
           />
-          <label htmlFor="is_active" className="text-sm text-gray-700">Aktif</label>
+          <label htmlFor="is_active" className="text-sm text-text-primary">Aktif</label>
         </div>
 
         {error && (
@@ -239,7 +239,7 @@ export default function JenisSuratForm() {
             {isSubmitting ? 'Menyimpan...' : 'Simpan'}
           </button>
           <button type="button" onClick={() => navigate('/admin/surat/jenis-surat')}
-            className="px-6 py-2.5 border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+            className="px-6 py-2.5 border border-border text-text-primary font-medium rounded-lg hover:bg-bg-subtle transition-colors">
             Batal
           </button>
         </div>

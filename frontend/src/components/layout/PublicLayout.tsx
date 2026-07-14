@@ -45,7 +45,7 @@ export default function PublicLayout() {
   const logoInitial = profile?.nama_desa?.charAt(0)?.toUpperCase() || 'D';
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--color-bg)' }}>
+    <div className="min-h-screen flex flex-col" className="bg-bg-page">
       {/* ===== Navbar ===== */}
       <nav
         className={clsx(

@@ -31,8 +31,8 @@ export default function JenisSuratList() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Jenis Surat</h1>
-          <p className="text-gray-500 text-sm mt-1">Kelola jenis surat dan template</p>
+          <h1 className="text-2xl font-bold text-text-primary">Jenis Surat</h1>
+          <p className="text-text-secondary text-sm mt-1">Kelola jenis surat dan template</p>
         </div>
         <Link
           to="/admin/surat/jenis-surat/tambah"
@@ -44,7 +44,7 @@ export default function JenisSuratList() {
       </div>
 
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
         <input
           type="text"
           value={search}
@@ -54,26 +54,26 @@ export default function JenisSuratList() {
         />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-surface rounded-xl border border-border overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Kode</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Nama</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Estimasi (hari)</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Syarat</th>
-              <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Status</th>
-              <th className="text-right px-4 py-3 text-xs font-medium text-gray-500 uppercase">Aksi</th>
+            <tr className="bg-bg-subtle border-b border-border">
+              <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Kode</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Nama</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Estimasi (hari)</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Syarat</th>
+              <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Status</th>
+              <th className="text-right px-4 py-3 text-xs font-medium text-text-secondary uppercase">Aksi</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {isLoading ? (
               <tr><td colSpan={6} className="text-center py-8"><div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
             ) : filtered.length === 0 ? (
-              <tr><td colSpan={6} className="text-center py-8 text-gray-400">Belum ada jenis surat</td></tr>
+              <tr><td colSpan={6} className="text-center py-8 text-text-muted">Belum ada jenis surat</td></tr>
             ) : (
               filtered.map((t: any) => (
-                <tr key={t.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={t.id} className="hover:bg-bg-subtle transition-colors">
                   <td className="px-4 py-3 text-sm font-mono font-medium">{t.kode}</td>
                   <td className="px-4 py-3 text-sm">{t.nama}</td>
                   <td className="px-4 py-3 text-sm">{t.estimasi_hari ? `${t.estimasi_hari} hari` : '-'}</td>

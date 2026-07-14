@@ -55,9 +55,9 @@ export default function DataTable<TData extends { id: number | string }>({
     <div className="card overflow-hidden">
       {/* Header */}
       {(title || description) && (
-        <div className="px-5 py-4 border-b border-slate-100">
-          {title && <h3 className="font-display font-semibold text-slate-900">{title}</h3>}
-          {description && <p className="text-xs text-slate-500 mt-0.5">{description}</p>}
+        <div className="px-5 py-4 border-b border-border">
+          {title && <h3 className="font-display font-semibold text-text-primary">{title}</h3>}
+          {description && <p className="text-xs text-text-secondary mt-0.5">{description}</p>}
         </div>
       )}
 
@@ -70,9 +70,7 @@ export default function DataTable<TData extends { id: number | string }>({
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className={`text-left px-4 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/80 ${
-                      header.column.getCanSort() ? 'cursor-pointer select-none hover:text-slate-700' : ''
-                    }`}
+                    className={`text-left px-4 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider bg-bg-subtle ${header.column.getCanSort() ? 'cursor-pointer select-none hover:text-text-primary' : ''}`}
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     <div className="flex items-center gap-1.5">
@@ -83,14 +81,14 @@ export default function DataTable<TData extends { id: number | string }>({
                             className={`w-3 h-3 ${
                               header.column.getIsSorted() === 'asc'
                                 ? 'text-primary-600'
-                                : 'text-slate-300'
+                                : 'text-text-muted'
                             }`}
                           />
                           <ChevronDown
                             className={`w-3 h-3 ${
                               header.column.getIsSorted() === 'desc'
                                 ? 'text-primary-600'
-                                : 'text-slate-300'
+                                : 'text-text-muted'
                             }`}
                           />
                         </div>
@@ -101,13 +99,13 @@ export default function DataTable<TData extends { id: number | string }>({
               </tr>
             ))}
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-border">
             {isLoading ? (
               <tr>
                 <td colSpan={columns.length} className="text-center py-12">
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-8 h-8 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
-                    <p className="text-sm text-slate-400">Memuat data...</p>
+                    <p className="text-sm text-text-muted">Memuat data...</p>
                   </div>
                 </td>
               </tr>
@@ -115,12 +113,12 @@ export default function DataTable<TData extends { id: number | string }>({
               <tr>
                 <td colSpan={columns.length} className="text-center py-12">
                   <div className="flex flex-col items-center gap-2">
-                    <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="w-12 h-12 rounded-full bg-bg-subtle flex items-center justify-center">
+                      <svg className="w-6 h-6 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-2.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                       </svg>
                     </div>
-                    <p className="text-sm text-slate-400">{emptyMessage}</p>
+                    <p className="text-sm text-text-muted">{emptyMessage}</p>
                   </div>
                 </td>
               </tr>
@@ -128,11 +126,10 @@ export default function DataTable<TData extends { id: number | string }>({
               rows.map((row, idx) => (
                 <tr
                   key={row.original.id}
-                  className="hover:bg-slate-50/80 transition-colors"
-                  style={{ animationDelay: `${idx * 0.03}s` }}
+                  className="hover:bg-bg-subtle transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-4 py-3 text-sm text-slate-700">
+                    <td key={cell.id} className="px-4 py-3 text-sm text-text-primary">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -145,15 +142,15 @@ export default function DataTable<TData extends { id: number | string }>({
 
       {/* Pagination */}
       {pageCount > 1 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-5 py-3.5 border-t border-slate-100 bg-slate-50/50">
-          <p className="text-xs text-slate-500">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-5 py-3.5 border-t border-border bg-bg-subtle">
+          <p className="text-xs text-text-secondary">
             Halaman {pageIndex + 1} dari {pageCount}
           </p>
           <div className="flex gap-2">
             <button
               onClick={() => onPageChange?.(pageIndex)}
               disabled={pageIndex === 0}
-              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-text-secondary bg-surface border border-border rounded-lg hover:bg-bg-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
               Sebelumnya
@@ -161,7 +158,7 @@ export default function DataTable<TData extends { id: number | string }>({
             <button
               onClick={() => onPageChange?.(pageIndex + 2)}
               disabled={pageIndex >= pageCount - 1}
-              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-text-secondary bg-surface border border-border rounded-lg hover:bg-bg-subtle disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               Selanjutnya
               <ChevronRight className="w-3.5 h-3.5" />

@@ -28,8 +28,8 @@ export default function BeritaList() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Berita</h1>
-          <p className="text-gray-500 text-sm mt-1">Total: {data?.total || 0} berita</p>
+          <h1 className="text-2xl font-bold text-text-primary">Berita</h1>
+          <p className="text-text-secondary text-sm mt-1">Total: {data?.total || 0} berita</p>
         </div>
         <Link to="/admin/berita/tambah"
           className="flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors">
@@ -38,36 +38,36 @@ export default function BeritaList() {
       </div>
 
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
         <input type="text" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Cari judul berita..."
           className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none text-sm" />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-surface rounded-xl border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Judul</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Kategori</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Status</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                <th className="text-right px-4 py-3 text-xs font-medium text-gray-500 uppercase">Aksi</th>
+              <tr className="bg-bg-subtle border-b border-border">
+                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Judul</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Kategori</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Status</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Tanggal</th>
+                <th className="text-right px-4 py-3 text-xs font-medium text-text-secondary uppercase">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {isLoading ? (
                 <tr><td colSpan={5} className="text-center py-8"><div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
               ) : items.length === 0 ? (
-                <tr><td colSpan={5} className="text-center py-8 text-gray-400">Belum ada berita</td></tr>
+                <tr><td colSpan={5} className="text-center py-8 text-text-muted">Belum ada berita</td></tr>
               ) : (
                 items.map((item: any) => (
-                  <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={item.id} className="hover:bg-bg-subtle transition-colors">
                     <td className="px-4 py-3 text-sm font-medium">{item.judul}</td>
                     <td className="px-4 py-3 text-sm">{item.kategori || '-'}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${item.status === 'published' ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-600'}`}>
+                      <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${item.status === 'published' ? 'bg-green-50 text-green-700' : 'bg-bg-subtle text-text-secondary'}`}>
                         {item.status === 'published' ? 'Terbit' : 'Draft'}
                       </span>
                     </td>
@@ -90,13 +90,13 @@ export default function BeritaList() {
           </table>
         </div>
         {data?.last_page > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-            <p className="text-sm text-gray-500">Halaman {data.current_page} dari {data.last_page}</p>
+          <div className="flex items-center justify-between px-4 py-3 border-t border-border">
+            <p className="text-sm text-text-secondary">Halaman {data.current_page} dari {data.last_page}</p>
             <div className="flex gap-2">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50">Sebelumnya</button>
+                className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-bg-subtle">Sebelumnya</button>
               <button onClick={() => setPage(p => p + 1)} disabled={page >= (data.last_page || 1)}
-                className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50">Selanjutnya</button>
+                className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-bg-subtle">Selanjutnya</button>
             </div>
           </div>
         )}

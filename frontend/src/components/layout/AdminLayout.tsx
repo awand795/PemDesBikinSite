@@ -81,7 +81,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: 'var(--color-bg)' }}>
+    <div className="min-h-screen flex" className="bg-bg-page">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -210,23 +210,19 @@ export default function AdminLayout() {
         {/* ===== Top Header ===== */}
         <header
           className="sticky top-0 z-30 h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8"
-          style={{
-            backgroundColor: 'var(--color-surface)',
-            borderBottom: '1px solid var(--color-border)',
-            backdropFilter: 'blur(12px)',
-          }}
+          className="bg-surface border-b border-border backdrop-blur-md"
         >
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden p-2 -ml-2 rounded-lg transition-colors"
-              style={{ color: 'var(--color-text-secondary)' }}
+              className="text-text-secondary"
             >
               <Menu className="w-5 h-5" />
             </button>
             <span
               className="hidden sm:block text-sm font-medium capitalize"
-              style={{ color: 'var(--color-text)' }}
+              className="text-text-primary"
             >
               {location.pathname.split('/').pop()?.replace(/-/g, ' ') || 'Dashboard'}
             </span>
@@ -237,14 +233,14 @@ export default function AdminLayout() {
             <Link
               to="/"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
-              style={{ color: 'var(--color-text-secondary)' }}
+              className="text-text-secondary"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               Lihat Website
             </Link>
             <button
               className="relative p-2 rounded-lg transition-colors"
-              style={{ color: 'var(--color-text-secondary)' }}
+              className="text-text-secondary"
             >
               <Bell className="w-5 h-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-white dark:ring-[#1c1917]" />

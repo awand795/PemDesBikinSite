@@ -101,19 +101,19 @@ export default function ResidentForm() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate('/admin/penduduk')} className="text-gray-400 hover:text-gray-600">
+        <button onClick={() => navigate('/admin/penduduk')} className="text-text-muted hover:text-text-secondary">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{isEdit ? 'Edit' : 'Tambah'} Penduduk</h1>
-          <p className="text-gray-500 text-sm">Isi data penduduk dengan benar</p>
+          <h1 className="text-2xl font-bold text-text-primary">{isEdit ? 'Edit' : 'Tambah'} Penduduk</h1>
+          <p className="text-text-secondary text-sm">Isi data penduduk dengan benar</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-surface rounded-xl border border-border p-6 space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">NIK * (16 digit)</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">NIK * (16 digit)</label>
             <input
               type="text"
               maxLength={16}
@@ -124,7 +124,7 @@ export default function ResidentForm() {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Nama Lengkap *</label>
             <input
               type="text"
               {...register('nama_lengkap')}
@@ -134,7 +134,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin *</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Jenis Kelamin *</label>
             <select
               {...register('jenis_kelamin')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
@@ -146,7 +146,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">No. HP</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">No. HP</label>
             <input
               type="text"
               {...register('no_hp')}
@@ -156,7 +156,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tempat Lahir</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Tempat Lahir</label>
             <input
               type="text"
               {...register('tempat_lahir')}
@@ -166,7 +166,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Tanggal Lahir</label>
             <input
               type="date"
               {...register('tanggal_lahir')}
@@ -176,7 +176,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Agama</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Agama</label>
             <input
               type="text"
               {...register('agama')}
@@ -186,7 +186,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Pendidikan</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Pendidikan</label>
             <input
               type="text"
               {...register('pendidikan_terakhir')}
@@ -196,7 +196,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Pekerjaan</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Pekerjaan</label>
             <input
               type="text"
               {...register('pekerjaan')}
@@ -206,7 +206,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status Perkawinan</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Status Perkawinan</label>
             <input
               type="text"
               {...register('status_perkawinan')}
@@ -216,7 +216,7 @@ export default function ResidentForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Kartu Keluarga</label>
+            <label className="block text-sm font-medium text-text-primary mb-1">Kartu Keluarga</label>
             <select
               {...register('family_id')}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
@@ -248,7 +248,7 @@ export default function ResidentForm() {
           <button
             type="button"
             onClick={() => navigate('/admin/penduduk')}
-            className="px-6 py-2.5 border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-6 py-2.5 border border-border text-text-primary font-medium rounded-lg hover:bg-bg-subtle transition-colors"
           >
             Batal
           </button>
