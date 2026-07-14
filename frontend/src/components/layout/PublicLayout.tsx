@@ -100,7 +100,7 @@ export default function PublicLayout() {
                         ? 'text-primary-600 bg-primary-50 dark:bg-primary-600/10'
                         : 'text-white bg-white/15'
                       : scrolled || !isHome
-                        ? 'text-[var(--color-fg-secondary)] hover:text-[var(--color-fg)] hover:bg-[var(--color-surface-hover)]'
+                        ? 'text-[var(--color-fg-secondary)] hover:text-[var(--color-fg)] hover:bg-[var(--surface-hover)]'
                         : 'text-white/80 hover:text-white hover:bg-white/10'
                   )}
                 >
@@ -133,7 +133,7 @@ export default function PublicLayout() {
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className={clsx(
                   'p-2 rounded-lg transition-colors',
-                  scrolled || !isHome ? 'text-[var(--color-fg-secondary)] hover:bg-[var(--color-surface-hover)]' : 'text-white hover:bg-white/10'
+                  scrolled || !isHome ? 'text-[var(--color-fg-secondary)] hover:bg-[var(--surface-hover)]' : 'text-white hover:bg-white/10'
                 )}
                 aria-label="Toggle menu"
               >
@@ -167,7 +167,7 @@ export default function PublicLayout() {
                       ? 'bg-primary-50 dark:bg-primary-600/10 text-primary-600'
                       : 'bg-white/15 text-white'
                     : scrolled || !isHome
-                      ? 'text-[var(--color-fg-secondary)] hover:bg-[var(--color-surface-hover)]'
+                      ? 'text-[var(--color-fg-secondary)] hover:bg-[var(--surface-hover)]'
                       : 'text-white/80 hover:bg-white/10'
                 )}
               >

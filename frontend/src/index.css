@@ -168,50 +168,54 @@ html {
 }
 
 /* ===== Buttons (refined) ===== */
-.btn {
-  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200;
-  @apply focus:outline-none focus:ring-2 focus:ring-primary-500/30;
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl;
+  transition: all 0.2s ease;
+  &:focus-visible {
+    @apply outline-none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+  }
 }
-.btn-primary {
+@utility btn-primary {
   @apply btn;
   background-color: var(--color-primary-600);
   color: white;
   box-shadow: var(--shadow-card);
+  &:hover {
+    background-color: var(--color-primary-700);
+    box-shadow: var(--shadow-hover);
+  }
 }
-.btn-primary:hover {
-  background-color: var(--color-primary-700);
-  box-shadow: var(--shadow-hover);
-}
-.btn-secondary {
+@utility btn-secondary {
   @apply btn;
   background-color: var(--surface);
   color: var(--text-primary);
   border: 1px solid var(--border);
+  &:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--text-muted);
+  }
 }
-.btn-secondary:hover {
-  background-color: var(--surface-hover);
-  border-color: var(--text-muted);
-}
-.btn-ghost {
+@utility btn-ghost {
   @apply btn;
   color: var(--text-secondary);
+  &:hover {
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
+  }
 }
-.btn-ghost:hover {
-  background-color: var(--surface-hover);
-  color: var(--text-primary);
-}
-.btn-ghost-dark {
+@utility btn-ghost-dark {
   @apply btn;
   color: #a8a29e;
+  &:hover {
+    background-color: rgba(255,255,255,0.08);
+    color: #fafaf9;
+  }
 }
-.btn-ghost-dark:hover {
-  background-color: rgba(255,255,255,0.08);
-  color: #fafaf9;
-}
-.btn-sm { @apply px-3 py-1.5 text-sm; }
-.btn-md { @apply px-4 py-2 text-sm; }
-.btn-lg { @apply px-6 py-2.5 text-sm; }
-.btn-xl { @apply px-8 py-3 text-base; }
+@utility btn-sm { @apply px-3 py-1.5 text-sm; }
+@utility btn-md { @apply px-4 py-2 text-sm; }
+@utility btn-lg { @apply px-6 py-2.5 text-sm; }
+@utility btn-xl { @apply px-8 py-3 text-base; }
 
 /* ===== Input ===== */
 .input {
@@ -236,10 +240,26 @@ html {
 }
 
 /* ===== Badge ===== */
-.badge {
+@utility badge {
   @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium;
 }
-.badge-primary { @apply badge; background-color: var(--color-primary-100); color: var(--color-primary-700); }
-.badge-success { @apply badge; background-color: var(--color-success-50); color: var(--color-success-600); }
-.badge-danger { @apply badge; background-color: var(--color-danger-50); color: var(--color-danger-600); }
-.badge-neutral { background-color: var(--bg-subtle); color: var(--text-secondary); @apply badge; }
+@utility badge-primary {
+  @apply badge;
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-700);
+}
+@utility badge-success {
+  @apply badge;
+  background-color: var(--color-success-50);
+  color: var(--color-success-600);
+}
+@utility badge-danger {
+  @apply badge;
+  background-color: var(--color-danger-50);
+  color: var(--color-danger-600);
+}
+@utility badge-neutral {
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  @apply badge;
+}
