@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/stores/authStore';
+import { useThemeStore } from '@/stores/themeStore';
 import AdminLayout from '@/components/layout/AdminLayout';
 import PublicLayout from '@/components/layout/PublicLayout';
 import Dashboard from '@/features/dashboard/Dashboard';
@@ -53,6 +54,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   const { fetchUser, isAuthenticated } = useAuthStore();
+  const { initTheme } = useThemeStore();
+
+  useEffect(() => {
+    initTheme();
+  }, [initTheme]);
 
   useEffect(() => {
     if (isAuthenticated) {

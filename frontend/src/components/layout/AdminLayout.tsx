@@ -7,6 +7,7 @@ import {
   X, Home, Shield, FileStack, ChevronLeft, ExternalLink, Bell,
 } from 'lucide-react';
 import clsx from 'clsx';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 function hasPermission(userPermissions: string[], required: string | string[]): boolean {
   if (!userPermissions || userPermissions.length === 0) return false;
@@ -80,11 +81,11 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen flex" style={{ backgroundColor: 'var(--color-bg)' }}>
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -92,31 +93,31 @@ export default function AdminLayout() {
       {/* ===== Sidebar ===== */}
       <aside
         className={clsx(
-          'fixed lg:static inset-y-0 left-0 z-50 bg-slate-900 flex flex-col transition-all duration-300 ease-in-out',
+          'fixed lg:static inset-y-0 left-0 z-50 bg-[#1c1917] dark:bg-black flex flex-col transition-all duration-300 ease-in-out',
           collapsed ? 'w-16' : 'w-64',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >
         {/* Logo */}
         <div className={clsx(
-          'flex items-center border-b border-slate-800/50 h-16 lg:h-20 shrink-0',
+          'flex items-center border-b border-[#292524] h-16 lg:h-20 shrink-0',
           collapsed ? 'justify-center px-2' : 'justify-between px-5'
         )}>
           <Link to="/admin/dashboard" className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20 shrink-0">
+            <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center shrink-0">
               <Home className="w-4 h-4 text-white" />
             </div>
             {!collapsed && (
               <div className="flex flex-col min-w-0">
                 <span className="font-display font-bold text-white text-base">PemDes</span>
-                <span className="text-[10px] text-slate-500 tracking-wider uppercase">Administrator</span>
+                <span className="text-[10px] text-[#a8a29e] tracking-wider uppercase">Administrator</span>
               </div>
             )}
           </Link>
           {!collapsed && (
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-slate-400 hover:text-white transition-colors"
+              className="lg:hidden text-[#a8a29e] hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -134,7 +135,7 @@ export default function AdminLayout() {
             return (
               <div key={group.label} className="mb-4">
                 {!collapsed && (
-                  <p className="px-3 mb-1 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
+                  <p className="px-3 mb-1 text-[10px] font-semibold text-[#a8a29e] uppercase tracking-widest">
                     {group.label}
                   </p>
                 )}
@@ -151,12 +152,12 @@ export default function AdminLayout() {
                           'flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200',
                           collapsed ? 'justify-center px-0 py-2.5 mx-auto w-10' : 'px-3 py-2.5',
                           active
-                            ? 'bg-primary-600/20 text-primary-400 shadow-sm'
-                            : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                            ? 'bg-primary-600/20 text-primary-400'
+                            : 'text-[#a8a29e] hover:bg-[#292524] hover:text-white'
                         )}
                         title={collapsed ? item.label : undefined}
                       >
-                        <Icon className={clsx('shrink-0', collapsed ? 'w-5 h-5' : 'w-5 h-5')} />
+                        <Icon className="w-5 h-5 shrink-0" />
                         {!collapsed && <span>{item.label}</span>}
                       </Link>
                     );
@@ -167,36 +168,26 @@ export default function AdminLayout() {
           })}
         </nav>
 
-        {/* Collapse toggle (desktop) */}
+        {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="hidden lg:flex items-center justify-center h-10 border-t border-slate-800/50 text-slate-500 hover:text-slate-300 hover:bg-slate-800/30 transition-colors"
+          className="hidden lg:flex items-center justify-center h-10 border-t border-[#292524] text-[#a8a29e] hover:text-white hover:bg-[#292524]/30 transition-colors"
         >
           <ChevronLeft className={clsx('w-4 h-4 transition-transform duration-300', collapsed && 'rotate-180')} />
         </button>
 
         {/* User info */}
-        <div className={clsx(
-          'border-t border-slate-800/50 p-3',
-          collapsed && 'flex flex-col items-center'
-        )}>
-          <div className={clsx(
-            'flex items-center gap-3',
-            collapsed ? 'flex-col' : ''
-          )}>
-            <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center shrink-0 shadow-sm">
+        <div className={clsx('border-t border-[#292524] p-3', collapsed && 'flex flex-col items-center')}>
+          <div className={clsx('flex items-center gap-3', collapsed ? 'flex-col' : '')}>
+            <div className="w-9 h-9 bg-primary-600 rounded-full flex items-center justify-center shrink-0">
               <span className="text-sm font-bold text-white">
                 {user?.name?.charAt(0)?.toUpperCase() || '?'}
               </span>
             </div>
             {!collapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-200 truncate">
-                  {user?.name || 'User'}
-                </p>
-                <p className="text-xs text-slate-500 truncate">
-                  {user?.roles?.[0]?.name || '-'}
-                </p>
+                <p className="text-sm font-medium text-white truncate">{user?.name || 'User'}</p>
+                <p className="text-xs text-[#a8a29e] truncate">{user?.roles?.[0]?.name || '-'}</p>
               </div>
             )}
           </div>
@@ -204,7 +195,7 @@ export default function AdminLayout() {
             <div className="flex gap-1 mt-2">
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors w-full"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-[#a8a29e] hover:text-red-400 hover:bg-red-500/10 transition-colors w-full"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Keluar
@@ -217,36 +208,46 @@ export default function AdminLayout() {
       {/* ===== Main Area ===== */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* ===== Top Header ===== */}
-        <header className={clsx(
-          'sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200/50',
-          'h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8'
-        )}>
+        <header
+          className="sticky top-0 z-30 h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8"
+          style={{
+            backgroundColor: 'var(--color-surface)',
+            borderBottom: '1px solid var(--color-border)',
+            backdropFilter: 'blur(12px)',
+          }}
+        >
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 -ml-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="lg:hidden p-2 -ml-2 rounded-lg transition-colors"
+              style={{ color: 'var(--color-text-secondary)' }}
             >
               <Menu className="w-5 h-5" />
             </button>
-            {/* Breadcrumb placeholder */}
-            <div className="hidden sm:flex items-center gap-2 text-sm text-slate-400">
-              <span className="text-slate-600 font-medium capitalize">
-                {location.pathname.split('/').pop()?.replace(/-/g, ' ') || 'Dashboard'}
-              </span>
-            </div>
+            <span
+              className="hidden sm:block text-sm font-medium capitalize"
+              style={{ color: 'var(--color-text)' }}
+            >
+              {location.pathname.split('/').pop()?.replace(/-/g, ' ') || 'Dashboard'}
+            </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link
               to="/"
-              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+              style={{ color: 'var(--color-text-secondary)' }}
             >
               <ExternalLink className="w-3.5 h-3.5" />
               Lihat Website
             </Link>
-            <button className="relative p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+            <button
+              className="relative p-2 rounded-lg transition-colors"
+              style={{ color: 'var(--color-text-secondary)' }}
+            >
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-white" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-white dark:ring-[#1c1917]" />
             </button>
           </div>
         </header>

@@ -45,7 +45,7 @@ export default function LayananSurat() {
     return (
       <div className="max-w-lg mx-auto px-4 py-20">
         <div className="card p-8 text-center animate-scale-in">
-          <div className="w-20 h-20 mx-auto bg-gradient-to-br from-success-500 to-emerald-600 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-success-500/20">
+          <div className="w-20 h-20 mx-auto bg-success-500 rounded-full flex items-center justify-center mb-6 shadow-lg">
             <CheckCircle className="w-10 h-10 text-white" />
           </div>
           <h2 className="text-2xl font-display font-bold text-slate-900 mb-2">Permohonan Terkirim!</h2>

@@ -38,19 +38,11 @@ export default function Beranda() {
   return (
     <div>
       {/* ===== HERO SECTION ===== */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-slate-900">
-        {/* Background gradient & effects */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-primary-950 to-slate-900" />
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary-600/10 to-transparent" />
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-pulse-glow" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl" />
-          {/* Grid pattern overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-          />
-        </div>
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-[#1c1917] dark:bg-black">
+        {/* Subtle pattern */}
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(250,250,249,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+        />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -122,8 +114,7 @@ export default function Beranda() {
 
       {/* ===== SAMBUTAN KEPALA DESA ===== */}
       {profile?.sambutan_kepala_desa && (
-        <section className="relative bg-white border-b border-slate-100 overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <section className="relative overflow-hidden" style={{ backgroundColor: 'var(--color-surface)', borderBottom: '1px solid var(--color-border)' }}>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
             <div className="flex flex-col lg:flex-row gap-10 items-start">
               <div className="w-20 h-20 lg:w-28 lg:h-28 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-primary-500/20">
@@ -225,9 +216,10 @@ export default function Beranda() {
       </section>
 
       {/* ===== STATISTIK ===== */}
-      <section className="relative bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-primary-950 to-slate-900" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
+      <section className="relative bg-[#1c1917] dark:bg-black overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(250,250,249,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+        />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
           <div className="text-center mb-12">
@@ -258,7 +250,7 @@ export default function Beranda() {
 
       {/* ===== BERITA TERBARU ===== */}
       {news.length > 0 && (
-        <section className="py-20 lg:py-24 bg-white">
+        <section className="py-20 lg:py-24" style={{ backgroundColor: 'var(--color-surface)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-12">
               <div>
@@ -335,11 +327,7 @@ export default function Beranda() {
       )}
 
       {/* ===== CTA SECTION ===== */}
-      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
-        </div>
+      <section className="relative bg-primary-600 overflow-hidden">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 text-center">
           <h2 className="text-3xl lg:text-4xl font-display font-bold text-white mb-4">
             Siap Untuk Pelayanan yang Lebih Mudah?

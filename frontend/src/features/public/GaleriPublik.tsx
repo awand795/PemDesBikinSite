@@ -39,9 +39,10 @@ export default function GaleriPublik() {
   return (
     <div>
       {/* ===== HERO ===== */}
-      <section className="relative bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-primary-950 to-slate-900" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
+      <section className="relative bg-[#1c1917] dark:bg-black overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(250,250,249,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+        />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-5">
@@ -115,7 +116,7 @@ export default function GaleriPublik() {
                 <button
                   key={g.id}
                   onClick={() => setSelectedIndex(idx)}
-                  className="group relative bg-white rounded-2xl border border-slate-200/60 overflow-hidden hover:shadow-xl hover:shadow-slate-900/5 hover:-translate-y-0.5 transition-all duration-300 text-left"
+                  className="group relative bg-white rounded-2xl border border-slate-200/60 shadow-sm shadow-slate-900/5 overflow-hidden hover:shadow-xl hover:shadow-slate-900/5 hover:-translate-y-0.5 transition-all duration-300 text-left"
                 >
                   <div className="aspect-[4/3] overflow-hidden bg-slate-100">
                     <img

@@ -38,10 +38,10 @@ export default function ProfilDesa() {
   return (
     <div>
       {/* ===== HERO ===== */}
-      <section className="relative bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-primary-950 to-slate-900" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl" />
+      <section className="relative bg-[#1c1917] dark:bg-black overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(250,250,249,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+        />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-5">
@@ -65,7 +65,7 @@ export default function ProfilDesa() {
           <div className="lg:col-span-2 space-y-8">
             {/* Sejarah */}
             {profile.sejarah && (
-              <div className="card p-6 lg:p-8 card-hover">
+              <div className="card p-6 lg:p-8 ">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
                     <BookOpen className="w-5 h-5 text-white" />
@@ -84,7 +84,7 @@ export default function ProfilDesa() {
             {/* Visi & Misi */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {profile.visi && (
-                <div className="card p-6 lg:p-8 card-hover">
+                <div className="card p-6 lg:p-8 ">
                   <div className="flex items-center gap-3 mb-5">
                     <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-orange-600 rounded-xl flex items-center justify-center">
                       <Eye className="w-5 h-5 text-white" />
@@ -98,7 +98,7 @@ export default function ProfilDesa() {
                 </div>
               )}
               {profile.misi && (
-                <div className="card p-6 lg:p-8 card-hover">
+                <div className="card p-6 lg:p-8 ">
                   <div className="flex items-center gap-3 mb-5">
                     <div className="w-10 h-10 bg-gradient-to-br from-secondary-500 to-emerald-600 rounded-xl flex items-center justify-center">
                       <Target className="w-5 h-5 text-white" />
@@ -116,7 +116,7 @@ export default function ProfilDesa() {
           {/* ===== Sidebar ===== */}
           <div className="space-y-6">
             {/* Informasi Desa */}
-            <div className="card p-6 card-hover">
+            <div className="card p-6 ">
               <h3 className="font-display font-semibold text-slate-900 mb-5 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-primary-500" />
                 Informasi Desa
@@ -137,7 +137,7 @@ export default function ProfilDesa() {
             </div>
 
             {/* Wilayah */}
-            <div className="card p-6 card-hover">
+            <div className="card p-6 ">
               <h3 className="font-display font-semibold text-slate-900 mb-5 flex items-center gap-2">
                 <TreePine className="w-5 h-5 text-secondary-500" />
                 Wilayah
