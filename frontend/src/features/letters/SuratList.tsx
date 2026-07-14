@@ -71,7 +71,7 @@ export default function SuratList() {
       header: 'Status',
       enableSorting: true,
       cell: (info) => {
-        const st = statusConfig[info.getValue()] || { color: 'text-text-primary', bg: 'bg-bg-subtle', label: info.getValue() };
+        const st = statusConfig[info.getValue()] || { color: 'text-fg', bg: 'bg-subtle', label: info.getValue() };
         return <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${st.bg} ${st.color}`}>{st.label}</span>;
       },
     }),
@@ -91,13 +91,13 @@ export default function SuratList() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-text-primary">Permohonan Surat</h1>
-        <p className="text-text-secondary text-sm mt-1">Total: {data?.total || 0} permohonan</p>
+        <h1 className="text-2xl font-bold text-fg">Permohonan Surat</h1>
+        <p className="text-fg-secondary text-sm mt-1">Total: {data?.total || 0} permohonan</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-muted" />
           <input
             type="text" value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}

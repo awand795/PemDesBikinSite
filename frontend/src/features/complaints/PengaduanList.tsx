@@ -7,7 +7,7 @@ const statusConfig: Record<string, { color: string; bg: string; label: string }>
   baru: { color: 'text-red-700', bg: 'bg-red-50', label: 'Baru' },
   diproses: { color: 'text-blue-700', bg: 'bg-blue-50', label: 'Diproses' },
   selesai: { color: 'text-green-700', bg: 'bg-green-50', label: 'Selesai' },
-  ditolak: { color: 'text-text-primary', bg: 'bg-bg-subtle', label: 'Ditolak' },
+  ditolak: { color: 'text-fg', bg: 'bg-subtle', label: 'Ditolak' },
 };
 
 export default function PengaduanList() {
@@ -41,13 +41,13 @@ export default function PengaduanList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-text-primary">Pengaduan Masyarakat</h1>
+        <h1 className="text-2xl font-bold text-fg">Pengaduan Masyarakat</h1>
       </div>
 
       <div className="flex gap-2">
         {['', 'baru', 'diproses', 'selesai', 'ditolak'].map((s) => (
           <button key={s} onClick={() => setStatus(s)}
-            className={`px-4 py-1.5 text-sm rounded-lg border transition-colors ${status === s ? 'bg-primary-600 text-white border-primary-600' : 'border-border text-text-secondary hover:bg-bg-subtle'}`}>
+            className={`px-4 py-1.5 text-sm rounded-lg border transition-colors ${status === s ? 'bg-primary-600 text-white border-primary-600' : 'border-border text-fg-secondary hover:bg-subtle'}`}>
             {s ? (s.charAt(0).toUpperCase() + s.slice(1)) : 'Semua'}
           </button>
         ))}
@@ -57,7 +57,7 @@ export default function PengaduanList() {
         {isLoading ? (
           <div className="text-center py-8"><div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto" /></div>
         ) : items.length === 0 ? (
-          <div className="text-center py-8 text-text-muted">Belum ada pengaduan</div>
+          <div className="text-center py-8 text-fg-muted">Belum ada pengaduan</div>
         ) : (
           items.map((item: any) => {
             const st = statusConfig[item.status] || {};
@@ -66,11 +66,11 @@ export default function PengaduanList() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <div className="flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-text-muted" />
-                      <span className="text-xs font-mono text-text-muted">{item.kode_tiket}</span>
+                      <MessageSquare className="w-4 h-4 text-fg-muted" />
+                      <span className="text-xs font-mono text-fg-muted">{item.kode_tiket}</span>
                       <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${st.bg} ${st.color}`}>{st.label}</span>
                     </div>
-                    <p className="text-sm text-text-secondary mt-1">{item.kategori} {item.nama_pelapor ? `- ${item.nama_pelapor}` : '(Anonim)'}</p>
+                    <p className="text-sm text-fg-secondary mt-1">{item.kategori} {item.nama_pelapor ? `- ${item.nama_pelapor}` : '(Anonim)'}</p>
                   </div>
                   {item.status === 'baru' && (
                     <button onClick={() => setSelected(item)}
@@ -79,12 +79,12 @@ export default function PengaduanList() {
                     </button>
                   )}
                 </div>
-                <p className="text-sm text-text-primary">{item.isi_pengaduan}</p>
-                {item.lokasi && <p className="text-xs text-text-muted mt-2">Lokasi: {item.lokasi}</p>}
+                <p className="text-sm text-fg">{item.isi_pengaduan}</p>
+                {item.lokasi && <p className="text-xs text-fg-muted mt-2">Lokasi: {item.lokasi}</p>}
                 {item.tanggapan && (
                   <div className="mt-3 pt-3 border-t border-gray-100">
-                    <p className="text-xs font-medium text-text-secondary mb-1">Tanggapan:</p>
-                    <p className="text-sm text-text-primary">{item.tanggapan}</p>
+                    <p className="text-xs font-medium text-fg-secondary mb-1">Tanggapan:</p>
+                    <p className="text-sm text-fg">{item.tanggapan}</p>
                   </div>
                 )}
               </div>
@@ -97,14 +97,14 @@ export default function PengaduanList() {
       {selected && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-surface rounded-xl max-w-lg w-full p-6">
-            <h3 className="font-semibold text-text-primary mb-4">Tanggapi Pengaduan</h3>
-            <p className="text-sm text-text-secondary mb-4">
+            <h3 className="font-semibold text-fg mb-4">Tanggapi Pengaduan</h3>
+            <p className="text-sm text-fg-secondary mb-4">
               <span className="font-mono">{selected.kode_tiket}</span> - {selected.kategori}
             </p>
-            <p className="text-sm text-text-primary mb-4 p-3 bg-bg-subtle rounded-lg">{selected.isi_pengaduan}</p>
+            <p className="text-sm text-fg mb-4 p-3 bg-subtle rounded-lg">{selected.isi_pengaduan}</p>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-1">Ubah Status</label>
+                <label className="block text-sm font-medium text-fg mb-1">Ubah Status</label>
                 <select value={responseStatus} onChange={(e) => setResponseStatus(e.target.value)}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none text-sm">
                   <option value="diproses">Diproses</option>
@@ -113,7 +113,7 @@ export default function PengaduanList() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-1">Tanggapan</label>
+                <label className="block text-sm font-medium text-fg mb-1">Tanggapan</label>
                 <textarea value={response} onChange={(e) => setResponse(e.target.value)} rows={4}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none text-sm"
                   placeholder="Tulis tanggapan..." />
@@ -125,7 +125,7 @@ export default function PengaduanList() {
                   Kirim Tanggapan
                 </button>
                 <button onClick={() => { setSelected(null); setResponse(''); }}
-                  className="px-4 py-2.5 border border-border text-text-primary text-sm rounded-lg hover:bg-bg-subtle transition-colors">
+                  className="px-4 py-2.5 border border-border text-fg text-sm rounded-lg hover:bg-subtle transition-colors">
                   Tutup
                 </button>
               </div>

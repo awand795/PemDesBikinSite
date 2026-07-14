@@ -84,8 +84,8 @@ export default function ResidentsList() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">Data Penduduk</h1>
-          <p className="text-text-secondary text-sm mt-1">Total: {total} jiwa</p>
+          <h1 className="text-2xl font-bold text-fg">Data Penduduk</h1>
+          <p className="text-fg-secondary text-sm mt-1">Total: {total} jiwa</p>
         </div>
         <Link
           to="/admin/penduduk/tambah"
@@ -97,7 +97,7 @@ export default function ResidentsList() {
       </div>
 
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-muted" />
         <input
           type="text"
           value={search}

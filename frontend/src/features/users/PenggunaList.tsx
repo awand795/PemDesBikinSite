@@ -41,8 +41,8 @@ export default function PenggunaList() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">Manajemen Pengguna</h1>
-          <p className="text-text-secondary text-sm mt-1">Total: {data?.total || 0} pengguna</p>
+          <h1 className="text-2xl font-bold text-fg">Manajemen Pengguna</h1>
+          <p className="text-fg-secondary text-sm mt-1">Total: {data?.total || 0} pengguna</p>
         </div>
         <Link
           to="/admin/pengguna/tambah"
@@ -56,7 +56,7 @@ export default function PenggunaList() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-muted" />
           <input
             type="text"
             value={search}
@@ -82,13 +82,13 @@ export default function PenggunaList() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-bg-subtle border-b border-border">
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Nama</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Email</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Role</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Status</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Terdaftar</th>
-                <th className="text-right px-4 py-3 text-xs font-medium text-text-secondary uppercase">Aksi</th>
+              <tr className="bg-subtle border-b border-border">
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Nama</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Email</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Role</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Status</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Terdaftar</th>
+                <th className="text-right px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -100,11 +100,11 @@ export default function PenggunaList() {
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-8 text-text-muted">Belum ada pengguna</td>
+                  <td colSpan={6} className="text-center py-8 text-fg-muted">Belum ada pengguna</td>
                 </tr>
               ) : (
                 users.map((user: User) => (
-                  <tr key={user.id} className="hover:bg-bg-subtle transition-colors">
+                  <tr key={user.id} className="hover:bg-subtle transition-colors">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
@@ -113,14 +113,14 @@ export default function PenggunaList() {
                           </span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-text-primary">{user.name}</p>
+                          <p className="text-sm font-medium text-fg">{user.name}</p>
                           {user.phone && (
-                            <p className="text-xs text-text-muted">{user.phone}</p>
+                            <p className="text-xs text-fg-muted">{user.phone}</p>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-text-secondary">{user.email}</td>
+                    <td className="px-4 py-3 text-sm text-fg-secondary">{user.email}</td>
                     <td className="px-4 py-3">
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full bg-blue-50 text-blue-700">
                         <Shield className="w-3 h-3" />
@@ -135,7 +135,7 @@ export default function PenggunaList() {
                         {user.is_active ? 'Aktif' : 'Nonaktif'}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-text-secondary">
+                    <td className="px-4 py-3 text-sm text-fg-secondary">
                       {user.created_at ? new Date(user.created_at).toLocaleDateString('id-ID') : '-'}
                     </td>
                     <td className="px-4 py-3 text-right">
@@ -168,21 +168,21 @@ export default function PenggunaList() {
         {/* Pagination */}
         {data?.last_page && data.last_page > 1 && (
           <div className="flex items-center justify-between px-4 py-3 border-t border-border">
-            <p className="text-sm text-text-secondary">
+            <p className="text-sm text-fg-secondary">
               Halaman {data.current_page} dari {data.last_page}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-bg-subtle transition-colors"
+                className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-subtle transition-colors"
               >
                 Sebelumnya
               </button>
               <button
                 onClick={() => setPage(p => p + 1)}
                 disabled={page >= (data.last_page || 1)}
-                className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-bg-subtle transition-colors"
+                className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-subtle transition-colors"
               >
                 Selanjutnya
               </button>

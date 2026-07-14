@@ -97,14 +97,14 @@ export default function PenggunaForm() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate('/admin/pengguna')} className="text-text-muted hover:text-text-secondary">
+        <button onClick={() => navigate('/admin/pengguna')} className="text-fg-muted hover:text-fg-secondary">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">
+          <h1 className="text-2xl font-bold text-fg">
             {isEdit ? 'Edit' : 'Tambah'} Pengguna
           </h1>
-          <p className="text-text-secondary text-sm">
+          <p className="text-fg-secondary text-sm">
             {isEdit ? 'Ubah data dan role pengguna' : 'Buat akun baru untuk staf desa'}
           </p>
         </div>
@@ -114,7 +114,7 @@ export default function PenggunaForm() {
         {/* User Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-text-primary mb-1">Nama Lengkap *</label>
+            <label className="block text-sm font-medium text-fg mb-1">Nama Lengkap *</label>
             <input
               type="text"
               required
@@ -126,7 +126,7 @@ export default function PenggunaForm() {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-text-primary mb-1">Email *</label>
+            <label className="block text-sm font-medium text-fg mb-1">Email *</label>
             <input
               type="email"
               required
@@ -138,7 +138,7 @@ export default function PenggunaForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">No. HP</label>
+            <label className="block text-sm font-medium text-fg mb-1">No. HP</label>
             <input
               type="text"
               value={form.phone}
@@ -149,7 +149,7 @@ export default function PenggunaForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">
+            <label className="block text-sm font-medium text-fg mb-1">
               Role / Jabatan *
             </label>
             <select
@@ -169,14 +169,14 @@ export default function PenggunaForm() {
 
           {/* Password */}
           <div className="md:col-span-2 border-t border-gray-100 pt-4">
-            <p className="text-sm font-medium text-text-primary mb-3">
+            <p className="text-sm font-medium text-fg mb-3">
               <Shield className="w-4 h-4 inline mr-1" />
               {isEdit ? 'Password (kosongkan jika tidak diubah)' : 'Password'}
             </p>
           </div>
 
           <div className="relative">
-            <label className="block text-sm font-medium text-text-primary mb-1">Password *</label>
+            <label className="block text-sm font-medium text-fg mb-1">Password *</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -190,7 +190,7 @@ export default function PenggunaForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-fg-muted hover:text-fg-secondary"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -198,7 +198,7 @@ export default function PenggunaForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Konfirmasi Password</label>
+            <label className="block text-sm font-medium text-fg mb-1">Konfirmasi Password</label>
             <input
               type={showPassword ? 'text' : 'password'}
               required={!isEdit}
@@ -219,7 +219,7 @@ export default function PenggunaForm() {
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-surface after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
-              <span className="ml-3 text-sm font-medium text-text-primary">Akun Aktif</span>
+              <span className="ml-3 text-sm font-medium text-fg">Akun Aktif</span>
             </label>
           </div>
         </div>
@@ -258,7 +258,7 @@ export default function PenggunaForm() {
           <button
             type="button"
             onClick={() => navigate('/admin/pengguna')}
-            className="px-6 py-2.5 border border-border text-text-primary font-medium rounded-lg hover:bg-bg-subtle transition-colors"
+            className="px-6 py-2.5 border border-border text-fg font-medium rounded-lg hover:bg-subtle transition-colors"
           >
             Batal
           </button>

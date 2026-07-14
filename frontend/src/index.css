@@ -85,11 +85,11 @@
   /* ===== Semantic Colors (auto light/dark) ===== */
   --color-surface: var(--surface);
   --color-border: var(--border);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-text-muted: var(--text-muted);
-  --color-bg-page: var(--bg-page);
-  --color-bg-subtle: var(--bg-subtle);
+  --color-fg: var(--text-primary);
+  --color-fg-secondary: var(--text-secondary);
+  --color-fg-muted: var(--text-muted);
+  --color-page: var(--bg-page);
+  --color-subtle: var(--bg-subtle);
 }
 
 /* ===== Base Styles ===== */

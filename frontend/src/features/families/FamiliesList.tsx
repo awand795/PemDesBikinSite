@@ -22,8 +22,8 @@ export default function FamiliesList() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">Kartu Keluarga</h1>
-          <p className="text-text-secondary text-sm mt-1">Total: {data?.total || 0} KK</p>
+          <h1 className="text-2xl font-bold text-fg">Kartu Keluarga</h1>
+          <p className="text-fg-secondary text-sm mt-1">Total: {data?.total || 0} KK</p>
         </div>
         <Link
           to="/admin/keluarga/tambah"
@@ -35,7 +35,7 @@ export default function FamiliesList() {
       </div>
 
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-muted" />
         <input
           type="text"
           value={search}
@@ -49,22 +49,22 @@ export default function FamiliesList() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-bg-subtle border-b border-border">
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">No. KK</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Kepala Keluarga</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">Dusun</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-text-secondary uppercase">RT/RW</th>
-                <th className="text-right px-4 py-3 text-xs font-medium text-text-secondary uppercase">Aksi</th>
+              <tr className="bg-subtle border-b border-border">
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">No. KK</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Kepala Keluarga</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Dusun</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-fg-secondary uppercase">RT/RW</th>
+                <th className="text-right px-4 py-3 text-xs font-medium text-fg-secondary uppercase">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {isLoading ? (
                 <tr><td colSpan={5} className="text-center py-8"><div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
               ) : families.length === 0 ? (
-                <tr><td colSpan={5} className="text-center py-8 text-text-muted">Belum ada data KK</td></tr>
+                <tr><td colSpan={5} className="text-center py-8 text-fg-muted">Belum ada data KK</td></tr>
               ) : (
                 families.map((f: any) => (
-                  <tr key={f.id} className="hover:bg-bg-subtle transition-colors">
+                  <tr key={f.id} className="hover:bg-subtle transition-colors">
                     <td className="px-4 py-3 text-sm font-mono">{f.no_kk}</td>
                     <td className="px-4 py-3 text-sm font-medium">{f.nama_kepala_keluarga}</td>
                     <td className="px-4 py-3 text-sm">{f.dusun?.nama_dusun || '-'}</td>
@@ -82,10 +82,10 @@ export default function FamiliesList() {
         </div>
         {data?.last_page > 1 && (
           <div className="flex items-center justify-between px-4 py-3 border-t border-border">
-            <p className="text-sm text-text-secondary">Halaman {data.current_page} dari {data.last_page}</p>
+            <p className="text-sm text-fg-secondary">Halaman {data.current_page} dari {data.last_page}</p>
             <div className="flex gap-2">
-              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-bg-subtle">Sebelumnya</button>
-              <button onClick={() => setPage(p => p + 1)} disabled={page >= (data.last_page || 1)} className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-bg-subtle">Selanjutnya</button>
+              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-subtle">Sebelumnya</button>
+              <button onClick={() => setPage(p => p + 1)} disabled={page >= (data.last_page || 1)} className="px-3 py-1.5 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-subtle">Selanjutnya</button>
             </div>
           </div>
         )}

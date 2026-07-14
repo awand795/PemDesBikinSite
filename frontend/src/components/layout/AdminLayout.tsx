@@ -81,7 +81,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen flex" className="bg-bg-page">
+    <div className="min-h-screen flex" className="bg-page">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -216,13 +216,13 @@ export default function AdminLayout() {
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden p-2 -ml-2 rounded-lg transition-colors"
-              className="text-text-secondary"
+              className="text-fg-secondary"
             >
               <Menu className="w-5 h-5" />
             </button>
             <span
               className="hidden sm:block text-sm font-medium capitalize"
-              className="text-text-primary"
+              className="text-fg"
             >
               {location.pathname.split('/').pop()?.replace(/-/g, ' ') || 'Dashboard'}
             </span>
@@ -233,14 +233,14 @@ export default function AdminLayout() {
             <Link
               to="/"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
-              className="text-text-secondary"
+              className="text-fg-secondary"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               Lihat Website
             </Link>
             <button
               className="relative p-2 rounded-lg transition-colors"
-              className="text-text-secondary"
+              className="text-fg-secondary"
             >
               <Bell className="w-5 h-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-white dark:ring-[#1c1917]" />

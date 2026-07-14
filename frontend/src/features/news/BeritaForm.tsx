@@ -59,28 +59,28 @@ export default function BeritaForm() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate('/admin/berita')} className="text-text-muted hover:text-text-secondary">
+        <button onClick={() => navigate('/admin/berita')} className="text-fg-muted hover:text-fg-secondary">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">{isEdit ? 'Edit' : 'Tambah'} Berita</h1>
+          <h1 className="text-2xl font-bold text-fg">{isEdit ? 'Edit' : 'Tambah'} Berita</h1>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-surface rounded-xl border border-border p-6 space-y-5">
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Judul *</label>
+          <label className="block text-sm font-medium text-fg mb-1">Judul *</label>
           <input type="text" required value={form.judul} onChange={(e) => setForm({ ...form, judul: e.target.value })}
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Kategori</label>
+            <label className="block text-sm font-medium text-fg mb-1">Kategori</label>
             <input type="text" value={form.kategori} onChange={(e) => setForm({ ...form, kategori: e.target.value })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Status</label>
+            <label className="block text-sm font-medium text-fg mb-1">Status</label>
             <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value as 'draft' | 'published' })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none">
               <option value="draft">Draft</option>
@@ -89,7 +89,7 @@ export default function BeritaForm() {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Konten *</label>
+          <label className="block text-sm font-medium text-fg mb-1">Konten *</label>
           <textarea required value={form.konten} onChange={(e) => setForm({ ...form, konten: e.target.value })} rows={10}
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none font-mono text-sm"
             placeholder="Tulis konten berita di sini... (HTML didukung)" />
@@ -100,7 +100,7 @@ export default function BeritaForm() {
             <Save className="w-4 h-4" /> {isSubmitting ? 'Menyimpan...' : 'Simpan'}
           </button>
           <button type="button" onClick={() => navigate('/admin/berita')}
-            className="px-6 py-2.5 border border-border text-text-primary font-medium rounded-lg hover:bg-bg-subtle transition-colors">Batal</button>
+            className="px-6 py-2.5 border border-border text-fg font-medium rounded-lg hover:bg-subtle transition-colors">Batal</button>
         </div>
       </form>
     </div>

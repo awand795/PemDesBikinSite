@@ -36,13 +36,13 @@ export default function CekStatusSurat() {
     <div className="max-w-lg mx-auto px-4 py-12">
       <div className="text-center mb-8">
         <FileText className="w-12 h-12 text-primary-500 mx-auto mb-2" />
-        <h1 className="text-3xl font-bold text-text-primary">Cek Status Surat</h1>
-        <p className="text-text-secondary mt-2">Masukkan nomor pengajuan dan NIK</p>
+        <h1 className="text-3xl font-bold text-fg">Cek Status Surat</h1>
+        <p className="text-fg-secondary mt-2">Masukkan nomor pengajuan dan NIK</p>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-surface rounded-xl border border-border p-6 space-y-4 mb-6">
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Nomor Pengajuan</label>
+          <label className="block text-sm font-medium text-fg mb-1">Nomor Pengajuan</label>
           <input
             type="text"
             required
@@ -53,7 +53,7 @@ export default function CekStatusSurat() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">NIK</label>
+          <label className="block text-sm font-medium text-fg mb-1">NIK</label>
           <input
             type="text"
             required
@@ -87,38 +87,38 @@ export default function CekStatusSurat() {
 
       {data && (
         <div className="bg-surface rounded-xl border border-border p-6">
-          <h3 className="font-semibold text-text-primary mb-4">Detail Permohonan</h3>
+          <h3 className="font-semibold text-fg mb-4">Detail Permohonan</h3>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-text-secondary">Jenis Surat</span>
+              <span className="text-fg-secondary">Jenis Surat</span>
               <span className="font-medium">{data.letter_type?.nama}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-secondary">Nama Pemohon</span>
+              <span className="text-fg-secondary">Nama Pemohon</span>
               <span className="font-medium">{data.nama_pemohon}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-secondary">Tanggal Pengajuan</span>
+              <span className="text-fg-secondary">Tanggal Pengajuan</span>
               <span className="font-medium">
                 {data.tanggal_pengajuan ? new Date(data.tanggal_pengajuan).toLocaleDateString('id-ID') : '-'}
               </span>
             </div>
             <div className="flex justify-between items-center pt-2 border-t">
-              <span className="text-text-secondary">Status</span>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusConfig[data.status]?.bg || 'bg-bg-subtle'} ${statusConfig[data.status]?.color || 'text-text-primary'}`}>
+              <span className="text-fg-secondary">Status</span>
+              <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusConfig[data.status]?.bg || 'bg-subtle'} ${statusConfig[data.status]?.color || 'text-fg'}`}>
                 {statusConfig[data.status]?.label || data.status}
               </span>
             </div>
             {data.nomor_surat && (
               <div className="flex justify-between">
-                <span className="text-text-secondary">Nomor Surat</span>
+                <span className="text-fg-secondary">Nomor Surat</span>
                 <span className="font-medium">{data.nomor_surat}</span>
               </div>
             )}
             {data.catatan_admin && (
               <div className="pt-2 border-t">
-                <span className="text-text-secondary block mb-1">Catatan Admin</span>
-                <p className="text-text-primary">{data.catatan_admin}</p>
+                <span className="text-fg-secondary block mb-1">Catatan Admin</span>
+                <p className="text-fg">{data.catatan_admin}</p>
               </div>
             )}
           </div>

@@ -63,7 +63,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-center h-96">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-text-muted">Memuat data dashboard...</p>
+          <p className="text-sm text-fg-muted">Memuat data dashboard...</p>
         </div>
       </div>
     );
@@ -86,14 +86,14 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-display font-bold text-text-primary">
+          <h1 className="text-2xl lg:text-3xl font-display font-bold text-fg">
             Dashboard
           </h1>
-          <p className="text-sm text-text-secondary mt-1">
+          <p className="text-sm text-fg-secondary mt-1">
             Ringkasan data dan statistik desa
           </p>
         </div>
-        <div className="flex items-center gap-2 text-xs text-text-muted bg-surface px-3 py-2 rounded-lg card">
+        <div className="flex items-center gap-2 text-xs text-fg-muted bg-surface px-3 py-2 rounded-lg card">
           <Clock className="w-3.5 h-3.5" />
           Update terakhir: {new Date().toLocaleTimeString('id-ID')}
         </div>
@@ -115,8 +115,8 @@ export default function Dashboard() {
         <div className="card p-5 lg:p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="font-display font-semibold text-text-primary">Tren Pengajuan Surat</h3>
-              <p className="text-xs text-text-secondary mt-0.5">Per bulan tahun ini</p>
+              <h3 className="font-display font-semibold text-fg">Tren Pengajuan Surat</h3>
+              <p className="text-xs text-fg-secondary mt-0.5">Per bulan tahun ini</p>
             </div>
             <span className="badge-neutral">Tahunan</span>
           </div>
@@ -148,8 +148,8 @@ export default function Dashboard() {
         <div className="card p-5 lg:p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="font-display font-semibold text-text-primary">Demografi per Dusun</h3>
-              <p className="text-xs text-text-secondary mt-0.5">Distribusi penduduk</p>
+              <h3 className="font-display font-semibold text-fg">Demografi per Dusun</h3>
+              <p className="text-xs text-fg-secondary mt-0.5">Distribusi penduduk</p>
             </div>
           </div>
           {demografiDusun.length > 0 ? (
@@ -181,9 +181,9 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-[280px] text-text-muted">
+            <div className="flex items-center justify-center h-[280px] text-fg-muted">
               <div className="text-center">
-                <Users className="w-10 h-10 mx-auto mb-2 text-text-muted" />
+                <Users className="w-10 h-10 mx-auto mb-2 text-fg-muted" />
                 <p className="text-sm">Belum ada data dusun</p>
               </div>
             </div>
@@ -195,8 +195,8 @@ export default function Dashboard() {
       <div className="card p-5 lg:p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="font-display font-semibold text-text-primary">Komposisi Penduduk</h3>
-            <p className="text-xs text-text-secondary mt-0.5">Berdasarkan jenis kelamin</p>
+            <h3 className="font-display font-semibold text-fg">Komposisi Penduduk</h3>
+            <p className="text-xs text-fg-secondary mt-0.5">Berdasarkan jenis kelamin</p>
           </div>
           <span className="badge-neutral">Total: {totalPenduduk} Jiwa</span>
         </div>
@@ -219,19 +219,19 @@ export default function Dashboard() {
           </div>
         </div>
         {/* Detail bar */}
-        <div className="mt-5 p-4 bg-bg-subtle rounded-xl">
+        <div className="mt-5 p-4 bg-subtle rounded-xl">
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-blue-500" />
-              <span className="text-text-secondary">Laki-laki: <strong className="text-text-primary">{demografi.laki_laki || 0}</strong></span>
+              <span className="text-fg-secondary">Laki-laki: <strong className="text-fg">{demografi.laki_laki || 0}</strong></span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-rose-500" />
-              <span className="text-text-secondary">Perempuan: <strong className="text-text-primary">{demografi.perempuan || 0}</strong></span>
+              <span className="text-fg-secondary">Perempuan: <strong className="text-fg">{demografi.perempuan || 0}</strong></span>
             </div>
           </div>
           {totalPenduduk > 0 && (
-            <div className="mt-3 h-2 rounded-full bg-bg-subtle overflow-hidden flex">
+            <div className="mt-3 h-2 rounded-full bg-subtle overflow-hidden flex">
               <div
                 className="bg-blue-500 transition-all duration-500"
                 style={{ width: `${((demografi.laki_laki || 0) / totalPenduduk) * 100}%` }}

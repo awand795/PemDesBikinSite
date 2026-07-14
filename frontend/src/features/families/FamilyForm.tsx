@@ -72,36 +72,36 @@ export default function FamilyForm() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate('/admin/keluarga')} className="text-text-muted hover:text-text-secondary">
+        <button onClick={() => navigate('/admin/keluarga')} className="text-fg-muted hover:text-fg-secondary">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">{isEdit ? 'Edit' : 'Tambah'} Kartu Keluarga</h1>
+          <h1 className="text-2xl font-bold text-fg">{isEdit ? 'Edit' : 'Tambah'} Kartu Keluarga</h1>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-surface rounded-xl border border-border p-6 space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-text-primary mb-1">No. KK * (16 digit)</label>
+            <label className="block text-sm font-medium text-fg mb-1">No. KK * (16 digit)</label>
             <input type="text" required maxLength={16} pattern="[0-9]{16}" value={form.no_kk}
               onChange={(e) => setForm({ ...form, no_kk: e.target.value })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-text-primary mb-1">Nama Kepala Keluarga *</label>
+            <label className="block text-sm font-medium text-fg mb-1">Nama Kepala Keluarga *</label>
             <input type="text" required value={form.nama_kepala_keluarga}
               onChange={(e) => setForm({ ...form, nama_kepala_keluarga: e.target.value })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-text-primary mb-1">Alamat *</label>
+            <label className="block text-sm font-medium text-fg mb-1">Alamat *</label>
             <textarea required value={form.alamat}
               onChange={(e) => setForm({ ...form, alamat: e.target.value })} rows={2}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Dusun</label>
+            <label className="block text-sm font-medium text-fg mb-1">Dusun</label>
             <select value={form.dusun_id}
               onChange={(e) => setForm({ ...form, dusun_id: e.target.value })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none">
@@ -111,15 +111,15 @@ export default function FamilyForm() {
               ))}
             </select>
           </div>
-          <div><label className="block text-sm font-medium text-text-primary mb-1">RT</label>
+          <div><label className="block text-sm font-medium text-fg mb-1">RT</label>
             <input type="text" value={form.rt} onChange={(e) => setForm({ ...form, rt: e.target.value })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
           </div>
-          <div><label className="block text-sm font-medium text-text-primary mb-1">RW</label>
+          <div><label className="block text-sm font-medium text-fg mb-1">RW</label>
             <input type="text" value={form.rw} onChange={(e) => setForm({ ...form, rw: e.target.value })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
           </div>
-          <div><label className="block text-sm font-medium text-text-primary mb-1">Kode Pos</label>
+          <div><label className="block text-sm font-medium text-fg mb-1">Kode Pos</label>
             <input type="text" value={form.kode_pos} onChange={(e) => setForm({ ...form, kode_pos: e.target.value })}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none" />
           </div>
@@ -131,7 +131,7 @@ export default function FamilyForm() {
             <Save className="w-4 h-4" /> {isSubmitting ? 'Menyimpan...' : 'Simpan'}
           </button>
           <button type="button" onClick={() => navigate('/admin/keluarga')}
-            className="px-6 py-2.5 border border-border text-text-primary font-medium rounded-lg hover:bg-bg-subtle transition-colors">Batal</button>
+            className="px-6 py-2.5 border border-border text-fg font-medium rounded-lg hover:bg-subtle transition-colors">Batal</button>
         </div>
       </form>
     </div>

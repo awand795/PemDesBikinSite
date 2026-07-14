@@ -64,8 +64,8 @@ export default function GaleriList() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">Galeri Foto</h1>
-          <p className="text-text-secondary text-sm mt-1">Kelola foto galeri desa</p>
+          <h1 className="text-2xl font-bold text-fg">Galeri Foto</h1>
+          <p className="text-fg-secondary text-sm mt-1">Kelola foto galeri desa</p>
         </div>
         <button
           onClick={() => setShowUpload(!showUpload)}
@@ -80,22 +80,22 @@ export default function GaleriList() {
       {showUpload && (
         <form onSubmit={handleUpload} className="bg-surface rounded-xl border border-border p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Judul *</label>
+            <label className="block text-sm font-medium text-fg mb-1">Judul *</label>
             <input type="text" required value={judul} onChange={(e) => setJudul(e.target.value)}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Kategori</label>
+            <label className="block text-sm font-medium text-fg mb-1">Kategori</label>
             <input type="text" value={kategori} onChange={(e) => setKategori(e.target.value)}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none"
               placeholder="Kegiatan, Pembangunan, dll." />
           </div>
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">File Foto *</label>
+            <label className="block text-sm font-medium text-fg mb-1">File Foto *</label>
             <div className="flex items-center gap-3">
               <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)}
-                className="flex-1 text-sm text-text-secondary file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
-              {file && <span className="text-xs text-text-secondary">{file.name}</span>}
+                className="flex-1 text-sm text-fg-secondary file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
+              {file && <span className="text-xs text-fg-secondary">{file.name}</span>}
             </div>
           </div>
           <div className="flex gap-3">
@@ -105,7 +105,7 @@ export default function GaleriList() {
               {uploading ? 'Mengupload...' : 'Upload'}
             </button>
             <button type="button" onClick={() => setShowUpload(false)}
-              className="px-4 py-2.5 border border-border text-text-primary text-sm rounded-lg hover:bg-bg-subtle transition-colors">
+              className="px-4 py-2.5 border border-border text-fg text-sm rounded-lg hover:bg-subtle transition-colors">
               Batal
             </button>
           </div>
@@ -118,7 +118,7 @@ export default function GaleriList() {
       ) : galleries.length === 0 ? (
         <div className="text-center py-12">
           <ImageIcon className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-text-muted">Belum ada foto galeri</p>
+          <p className="text-fg-muted">Belum ada foto galeri</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -131,7 +131,7 @@ export default function GaleriList() {
                 onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/400x300/e2e8f0/94a3b8?text=Foto'; }}
               />
               <div className="p-3">
-                <p className="text-sm font-medium text-text-primary truncate">{g.judul}</p>
+                <p className="text-sm font-medium text-fg truncate">{g.judul}</p>
                 {g.kategori && (
                   <span className="text-xs text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">{g.kategori}</span>
                 )}
