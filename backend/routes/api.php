@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\LetterRequestController;
 use App\Http\Controllers\Api\LetterTypeController;
 use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PublicController;
 use App\Http\Controllers\Api\ResidentController;
 use App\Http\Controllers\Api\SettingController;
@@ -51,6 +52,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Upload (permission check is done in controller for granularity)
     Route::post('uploads', [UploadController::class, 'store']);
+
+    // Notifications
+    Route::get('notifications/pending', [NotificationController::class, 'pending']);
 
     // Dashboard
     Route::get('dashboard/stats', [DashboardController::class, 'stats'])

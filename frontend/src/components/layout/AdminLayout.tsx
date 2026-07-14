@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import NotificationBell from '@/components/ui/NotificationBell';
 
 function hasPermission(userPermissions: string[], required: string | string[]): boolean {
   if (!userPermissions || userPermissions.length === 0) return false;
@@ -238,13 +239,7 @@ export default function AdminLayout() {
               <ExternalLink className="w-3.5 h-3.5" />
               Lihat Website
             </Link>
-            <button
-              className="relative p-2 rounded-lg transition-colors"
-              className="text-fg-secondary"
-            >
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-white dark:ring-[#1c1917]" />
-            </button>
+            <NotificationBell />
           </div>
         </header>
 
