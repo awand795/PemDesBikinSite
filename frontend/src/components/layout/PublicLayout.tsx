@@ -45,26 +45,22 @@ export default function PublicLayout() {
   const logoInitial = profile?.nama_desa?.charAt(0)?.toUpperCase() || 'D';
 
   return (
-    <div className="min-h-screen flex flex-col" className="bg-page">
+    <div className="min-h-screen flex flex-col bg-page">
       {/* ===== Navbar ===== */}
       <nav
         className={clsx(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          scrolled
-            ? 'bg-white/90 dark:bg-[#1c1917]/90 backdrop-blur-xl shadow-sm border-b border-[var(--color-border)]'
-            : isHome ? 'bg-transparent' : 'bg-white dark:bg-[#1c1917] border-b border-[var(--color-border)]'
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-border bg-page/80 dark:bg-page/70 backdrop-blur-xl',
+          scrolled ? 'shadow-md shadow-slate-900/5' : ''
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+          <div className={clsx(
+            'flex items-center justify-between transition-all duration-300',
+            scrolled ? 'h-16' : 'h-16 lg:h-20'
+          )}>
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className={clsx(
-                'w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300',
-                scrolled || !isHome
-                  ? 'bg-primary-600 shadow-sm'
-                  : 'bg-white/20 backdrop-blur-sm border border-white/30'
-              )}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary-600 shadow-sm transition-transform duration-300 group-hover:scale-105">
                 {profile?.logo_path ? (
                   <img src={profile.logo_path} alt="" className="w-6 h-6 object-contain" />
                 ) : (
@@ -72,16 +68,10 @@ export default function PublicLayout() {
                 )}
               </div>
               <div className="flex flex-col">
-                <span className={clsx(
-                  'font-display font-bold text-lg leading-tight transition-colors duration-300',
-                  scrolled || !isHome ? 'text-[var(--color-fg)]' : 'text-white'
-                )}>
+                <span className="font-display font-extrabold text-lg leading-tight text-fg transition-colors">
                   {profile?.nama_desa || 'Desa Kita'}
                 </span>
-                <span className={clsx(
-                  'text-[10px] font-medium tracking-wider uppercase transition-colors duration-300',
-                  scrolled || !isHome ? 'text-primary-600' : 'text-white/70'
-                )}>
+                <span className="text-[10px] font-bold tracking-wider uppercase text-primary-600 dark:text-primary-400">
                   {profile?.kecamatan ? `Kec. ${profile.kecamatan}` : 'Pemerintahan Desa'}
                 </span>
               </div>
@@ -94,14 +84,10 @@ export default function PublicLayout() {
                   key={link.path}
                   to={link.path}
                   className={clsx(
-                    'px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                    'px-3 py-2 rounded-xl text-sm font-bold transition-all duration-200',
                     location.pathname === link.path
-                      ? scrolled || !isHome
-                        ? 'text-primary-600 bg-primary-50 dark:bg-primary-600/10'
-                        : 'text-white bg-white/15'
-                      : scrolled || !isHome
-                        ? 'text-[var(--color-fg-secondary)] hover:text-[var(--color-fg)] hover:bg-[var(--surface-hover)]'
-                        : 'text-white/80 hover:text-white hover:bg-white/10'
+                      ? 'text-primary-600 bg-primary-500/10'
+                      : 'text-fg-secondary hover:text-fg hover:bg-surface-hover'
                   )}
                 >
                   {link.label}
@@ -110,15 +96,10 @@ export default function PublicLayout() {
               <div className="ml-2">
                 <ThemeToggle />
               </div>
-              <div className="ml-1 pl-2 border-l border-[var(--color-border)]">
+              <div className="ml-1 pl-2 border-l border-border">
                 <Link
                   to="/admin/login"
-                  className={clsx(
-                    'inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200',
-                    scrolled || !isHome
-                      ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-sm'
-                      : 'bg-white/15 backdrop-blur-sm text-white border border-white/30 hover:bg-white/25'
-                  )}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-500/10 hover:shadow-primary-500/20 transition-all"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Panel Admin
@@ -131,10 +112,7 @@ export default function PublicLayout() {
               <ThemeToggle />
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className={clsx(
-                  'p-2 rounded-lg transition-colors',
-                  scrolled || !isHome ? 'text-[var(--color-fg-secondary)] hover:bg-[var(--surface-hover)]' : 'text-white hover:bg-white/10'
-                )}
+                className="p-2 rounded-xl text-fg-secondary hover:bg-surface-hover transition-colors"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -150,25 +128,16 @@ export default function PublicLayout() {
             mobileOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
           )}
         >
-          <div className={clsx(
-            'px-4 py-4 space-y-1 border-t',
-            scrolled || !isHome
-              ? 'bg-white dark:bg-[#1c1917] border-[var(--color-border)]'
-              : 'bg-[#1c1917]/90 backdrop-blur-xl border-white/10'
-          )}>
+          <div className="px-4 py-4 space-y-1 border-t border-border bg-page/95 backdrop-blur-xl">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 className={clsx(
-                  'block px-4 py-2.5 rounded-xl text-sm font-medium transition-all',
+                  'block px-4 py-2.5 rounded-xl text-sm font-bold transition-all',
                   location.pathname === link.path
-                    ? scrolled || !isHome
-                      ? 'bg-primary-50 dark:bg-primary-600/10 text-primary-600'
-                      : 'bg-white/15 text-white'
-                    : scrolled || !isHome
-                      ? 'text-[var(--color-fg-secondary)] hover:bg-[var(--surface-hover)]'
-                      : 'text-white/80 hover:bg-white/10'
+                    ? 'bg-primary-500/10 text-primary-600'
+                    : 'text-fg-secondary hover:bg-surface-hover hover:text-fg'
                 )}
               >
                 {link.label}
@@ -177,12 +146,7 @@ export default function PublicLayout() {
             <div className="pt-2">
               <Link
                 to="/admin/login"
-                className={clsx(
-                  'flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold transition-all',
-                  scrolled || !isHome
-                    ? 'bg-primary-600 text-white shadow-sm'
-                    : 'bg-white/20 backdrop-blur-sm text-white border border-white/30'
-                )}
+                className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold bg-primary-600 text-white shadow-md shadow-primary-500/10"
               >
                 <ExternalLink className="w-4 h-4" />
                 Panel Admin

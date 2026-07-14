@@ -19,15 +19,15 @@ function StatCard({ icon: Icon, label, value, change, color }: {
   const isNegative = change && parseFloat(change) < 0;
 
   return (
-    <div className="card p-5  group">
+    <div className="card p-5 group hover:-translate-y-0.5 transition-transform duration-300">
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
-          <p className="text-sm text-slate-500 mb-1">{label}</p>
-          <p className="text-2xl lg:text-3xl font-bold text-slate-900">{value}</p>
+          <p className="text-sm text-fg-secondary mb-1 font-medium">{label}</p>
+          <p className="text-2xl lg:text-3xl font-extrabold text-fg">{value}</p>
           {change && (
             <div className={clsx(
               'inline-flex items-center gap-1 mt-2 text-xs font-medium',
-              isPositive ? 'text-success-500' : isNegative ? 'text-danger-500' : 'text-slate-400'
+              isPositive ? 'text-success-500' : isNegative ? 'text-danger-500' : 'text-fg-muted'
             )}>
               {isPositive ? <TrendingUp className="w-3 h-3" /> : isNegative ? <TrendingDown className="w-3 h-3" /> : null}
               {change}
@@ -42,8 +42,8 @@ function StatCard({ icon: Icon, label, value, change, color }: {
         </div>
       </div>
       {/* Subtle gradient bar at bottom */}
-      <div className="mt-4 h-1 rounded-full bg-slate-100 overflow-hidden">
-        <div className="h-full rounded-full transition-all duration-500" style={{ width: '60%', backgroundColor: color }} />
+      <div className="mt-4 h-1 rounded-full bg-subtle overflow-hidden">
+        <div className="h-full rounded-full transition-all duration-500" style={{ width: '65%', backgroundColor: color }} />
       </div>
     </div>
   );
@@ -128,16 +128,18 @@ export default function Dashboard() {
                   <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-              <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+              <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 12, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#fff',
-                  border: '1px solid #e2e8f0',
+                  backgroundColor: 'var(--surface)',
+                  border: '1px solid var(--border)',
                   borderRadius: '12px',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
                 }}
+                labelStyle={{ color: 'var(--text-secondary)' }}
+                itemStyle={{ color: 'var(--text-primary)' }}
               />
               <Area type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={2} fill="url(#areaGradient)" />
             </AreaChart>
@@ -163,7 +165,7 @@ export default function Dashboard() {
                   outerRadius={100}
                   paddingAngle={3}
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
                   labelLine={false}
                 >
                   {demografiDusun.map((_, i) => (
@@ -172,11 +174,12 @@ export default function Dashboard() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#fff',
-                    border: '1px solid #e2e8f0',
+                    backgroundColor: 'var(--surface)',
+                    border: '1px solid var(--border)',
                     borderRadius: '12px',
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
                   }}
+                  itemStyle={{ color: 'var(--text-primary)' }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -201,21 +204,21 @@ export default function Dashboard() {
           <span className="badge-neutral">Total: {totalPenduduk} Jiwa</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center p-5 bg-gradient-to-b from-primary-50 to-primary-50/50 rounded-xl border border-primary-100">
-            <p className="text-3xl font-bold text-primary-700">{totalPenduduk}</p>
-            <p className="text-xs font-medium text-primary-600 mt-1">Total Penduduk</p>
+          <div className="text-center p-5 bg-gradient-to-br from-primary-500/10 to-primary-500/5 dark:from-primary-950/20 dark:to-primary-950/5 border border-primary-500/20 rounded-2xl shadow-sm">
+            <p className="text-3xl font-extrabold text-primary-700 dark:text-primary-400">{totalPenduduk}</p>
+            <p className="text-xs font-bold text-primary-600 dark:text-primary-300 mt-1">Total Penduduk</p>
           </div>
-          <div className="text-center p-5 bg-gradient-to-b from-blue-50 to-blue-50/50 rounded-xl border border-blue-100">
-            <p className="text-3xl font-bold text-blue-700">{demografi.laki_laki || 0}</p>
-            <p className="text-xs font-medium text-blue-600 mt-1">Laki-laki</p>
+          <div className="text-center p-5 bg-gradient-to-br from-blue-500/10 to-blue-500/5 dark:from-blue-950/20 dark:to-blue-950/5 border border-blue-500/20 rounded-2xl shadow-sm">
+            <p className="text-3xl font-extrabold text-blue-700 dark:text-blue-400">{demografi.laki_laki || 0}</p>
+            <p className="text-xs font-bold text-blue-600 dark:text-blue-300 mt-1">Laki-laki</p>
           </div>
-          <div className="text-center p-5 bg-gradient-to-b from-rose-50 to-rose-50/50 rounded-xl border border-rose-100">
-            <p className="text-3xl font-bold text-rose-700">{demografi.perempuan || 0}</p>
-            <p className="text-xs font-medium text-rose-600 mt-1">Perempuan</p>
+          <div className="text-center p-5 bg-gradient-to-br from-rose-500/10 to-rose-500/5 dark:from-rose-950/20 dark:to-rose-950/5 border border-rose-500/20 rounded-2xl shadow-sm">
+            <p className="text-3xl font-extrabold text-rose-700 dark:text-rose-400">{demografi.perempuan || 0}</p>
+            <p className="text-xs font-bold text-rose-600 dark:text-rose-300 mt-1">Perempuan</p>
           </div>
-          <div className="text-center p-5 bg-gradient-to-b from-secondary-50 to-secondary-50/50 rounded-xl border border-secondary-100">
-            <p className="text-3xl font-bold text-secondary-700">{stats.total_kk || 0}</p>
-            <p className="text-xs font-medium text-secondary-600 mt-1">Kartu Keluarga</p>
+          <div className="text-center p-5 bg-gradient-to-br from-secondary-500/10 to-secondary-500/5 dark:from-secondary-950/20 dark:to-secondary-950/5 border border-secondary-500/20 rounded-2xl shadow-sm">
+            <p className="text-3xl font-extrabold text-secondary-700 dark:text-secondary-400">{stats.total_kk || 0}</p>
+            <p className="text-xs font-bold text-secondary-600 dark:text-secondary-300 mt-1">Kartu Keluarga</p>
           </div>
         </div>
         {/* Detail bar */}

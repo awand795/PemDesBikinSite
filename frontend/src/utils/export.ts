@@ -20,7 +20,7 @@ function flattenRows<T extends Record<string, any>>(
   return data.map((item) => {
     const row: Row = {};
     for (const col of columns) {
-      const raw = col.key.split('.').reduce((obj, key) => obj?.[key], item);
+      const raw = col.key.split('.').reduce((obj, key) => obj?.[key], item) as any;
       row[col.label] = formatters?.[col.key]
         ? formatters[col.key](raw, item)
         : raw ?? '';
@@ -93,7 +93,7 @@ export function exportToPdf<T extends Record<string, any>>(
     margin: { top: 32, bottom: 15 },
     didDrawPage: (data: any) => {
       // Footer
-      const pageCount = doc.internal.getNumberOfPages();
+      const pageCount = doc.getNumberOfPages();
       doc.setFontSize(7);
       doc.text(
         `Halaman ${data.pageNumber} dari ${pageCount}`,

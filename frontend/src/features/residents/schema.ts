@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const residentSchema = z.object({
   nik: z.string().length(16, 'NIK harus 16 digit').regex(/^\d{16}$/, 'NIK harus berupa angka 16 digit'),
   nama_lengkap: z.string().min(1, 'Nama lengkap wajib diisi').max(255, 'Maksimal 255 karakter'),
-  jenis_kelamin: z.enum(['L', 'P'], { required_error: 'Jenis kelamin wajib dipilih' }),
+  jenis_kelamin: z.enum(['L', 'P'], { message: 'Jenis kelamin wajib dipilih' }),
   tempat_lahir: z.string().max(255).optional().or(z.literal('')),
   tanggal_lahir: z.string().optional().or(z.literal('')),
   agama: z.string().max(50).optional().or(z.literal('')),

@@ -63,21 +63,21 @@ export default function PengaduanPublik() {
 
   if (step === 'success' && result) {
     return (
-      <div className="max-w-lg mx-auto px-4 py-20">
+      <div className="max-w-lg mx-auto px-4 py-20 bg-page">
         <div className="card p-8 text-center animate-scale-in">
-          <div className="w-20 h-20 mx-auto bg-success-500 rounded-full flex items-center justify-center mb-6 shadow-lg">
+          <div className="w-20 h-20 mx-auto bg-emerald-500 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/20">
             <CheckCircle className="w-10 h-10 text-white" />
           </div>
-          <h2 className="text-2xl font-display font-bold text-slate-900 mb-2">Pengaduan Terkirim!</h2>
-          <p className="text-slate-500 mb-6">Simpan kode tiket berikut untuk mengecek status:</p>
-          <div className="bg-gradient-to-r from-primary-50 to-secondary-50 border border-primary-100 rounded-xl p-5 mb-6 inline-block">
-            <p className="text-xs text-primary-600 font-medium uppercase tracking-wider mb-1">Kode Tiket</p>
-            <p className="text-2xl font-bold text-primary-700 tracking-wider font-mono">
+          <h2 className="text-2xl font-display font-bold text-fg mb-2">Pengaduan Terkirim!</h2>
+          <p className="text-fg-secondary mb-6">Simpan kode tiket berikut untuk mengecek status:</p>
+          <div className="bg-gradient-to-br from-primary-500/10 to-indigo-500/5 dark:from-primary-950/25 dark:to-indigo-950/10 border border-primary-500/20 rounded-2xl p-6 mb-6 inline-block w-full max-w-sm">
+            <p className="text-xs text-primary-600 dark:text-primary-400 font-bold uppercase tracking-wider mb-1">Kode Tiket</p>
+            <p className="text-2xl font-extrabold text-primary-700 dark:text-primary-300 tracking-wider font-mono">
               {result.kode_tiket}
             </p>
           </div>
-          <p className="text-sm text-slate-400 mb-6">
-            Gunakan kode tiket untuk mengecek status pengaduan Anda.
+          <p className="text-sm text-fg-muted mb-6">
+            Gunakan kode tiket ini untuk mengecek status pengaduan Anda di masa mendatang.
           </p>
           <button
             onClick={() => {
@@ -96,24 +96,27 @@ export default function PengaduanPublik() {
   }
 
   return (
-    <div>
+    <div className="bg-page min-h-screen transition-colors duration-300">
       {/* ===== HERO ===== */}
-      <section className="relative bg-[#1c1917] dark:bg-black overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]"
-          style={{ backgroundImage: 'radial-gradient(circle, rgba(250,250,249,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+      <section className="relative bg-gradient-to-br from-primary-50/40 via-page to-secondary-50/20 dark:from-zinc-950 dark:via-page dark:to-primary-950/20 border-b border-border overflow-hidden">
+        {/* Glow Effects */}
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-primary-500/10 dark:bg-primary-500/5 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.01]"
+          style={{ backgroundImage: 'radial-gradient(circle, var(--text-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-5">
-              <MessageSquare className="w-4 h-4 text-primary-400" />
+          <div className="max-w-3xl animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-700 dark:text-primary-300 text-sm font-medium mb-5 backdrop-blur-sm">
+              <MessageSquare className="w-4 h-4 text-primary-500" />
               Pengaduan & Aspirasi
             </div>
-            <h1 className="text-4xl lg:text-5xl font-display font-bold text-white leading-tight">
-              Sampaikan <span className="gradient-text">Aspirasi</span> Anda
+            <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-fg leading-tight">
+              Sampaikan <span className="bg-gradient-to-r from-primary-600 to-indigo-500 dark:from-primary-400 dark:to-indigo-400 bg-clip-text text-transparent">Aspirasi</span> Anda
             </h1>
-            <p className="mt-4 text-lg text-slate-300 leading-relaxed">
+            <p className="mt-4 text-lg text-fg-secondary leading-relaxed">
               Salurkan keluhan, saran, dan aspirasi Anda kepada pemerintah desa.
-              Setiap masukan berarti untuk kemajuan desa kita.
+              Setiap masukan sangat berarti untuk transparansi dan kemajuan desa kita.
             </p>
           </div>
         </div>
@@ -121,36 +124,36 @@ export default function PengaduanPublik() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* ===== Info Cards ===== */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-          <div className="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-xl p-4 border border-primary-100/50 text-center">
-            <Shield className="w-8 h-8 text-primary-600 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-slate-800">Terjamin</p>
-            <p className="text-xs text-slate-500">Identitas aman & rahasia</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <div className="bg-gradient-to-br from-primary-500/10 to-indigo-500/5 dark:from-primary-950/20 dark:to-indigo-950/10 rounded-2xl p-5 border border-primary-500/20 text-center shadow-sm">
+            <Shield className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
+            <p className="text-sm font-bold text-fg">Terjamin</p>
+            <p className="text-xs text-fg-secondary mt-1">Identitas pelapor aman & rahasia</p>
           </div>
-          <div className="bg-gradient-to-br from-accent-50 to-orange-50 rounded-xl p-4 border border-accent-100/50 text-center">
-            <Send className="w-8 h-8 text-accent-600 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-slate-800">Responsif</p>
-            <p className="text-xs text-slate-500">Ditindaklanjuti segera</p>
+          <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/5 dark:from-amber-950/20 dark:to-orange-950/10 rounded-2xl p-5 border border-amber-500/20 text-center shadow-sm">
+            <Send className="w-8 h-8 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
+            <p className="text-sm font-bold text-fg">Responsif</p>
+            <p className="text-xs text-fg-secondary mt-1">Ditindaklanjuti segera oleh desa</p>
           </div>
-          <div className="bg-gradient-to-br from-secondary-50 to-emerald-50 rounded-xl p-4 border border-secondary-100/50 text-center">
-            <CheckCircle className="w-8 h-8 text-secondary-600 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-slate-800">Terpantau</p>
-            <p className="text-xs text-slate-500">Status bisa dilacak</p>
+          <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/5 dark:from-emerald-950/20 dark:to-teal-950/10 rounded-2xl p-5 border border-emerald-500/20 text-center shadow-sm">
+            <CheckCircle className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mx-auto mb-2" />
+            <p className="text-sm font-bold text-fg">Terpantau</p>
+            <p className="text-xs text-fg-secondary mt-1">Status tiket aduan bisa dilacak</p>
           </div>
         </div>
 
         {/* ===== Form ===== */}
-        <div className="card p-6 sm:p-8">
-          <h2 className="text-xl font-display font-bold text-slate-900 mb-6">Form Pengaduan</h2>
+        <div className="card p-6 sm:p-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <h2 className="text-xl font-display font-bold text-fg mb-6 border-b border-border pb-3">Form Pengaduan</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Nama & No HP */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold text-fg mb-2">
                   <span className="flex items-center gap-1.5">
-                    <User className="w-4 h-4 text-slate-400" />
-                    Nama (opsional)
+                    <User className="w-4 h-4 text-fg-muted" />
+                    Nama Pelapor (opsional)
                   </span>
                 </label>
                 <input
@@ -158,13 +161,13 @@ export default function PengaduanPublik() {
                   value={form.nama_pelapor}
                   onChange={(e) => setForm({ ...form, nama_pelapor: e.target.value })}
                   className="input"
-                  placeholder="Boleh dikosongkan"
+                  placeholder="Nama Anda atau kosongkan untuk anonim"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold text-fg mb-2">
                   <span className="flex items-center gap-1.5">
-                    <Phone className="w-4 h-4 text-slate-400" />
+                    <Phone className="w-4 h-4 text-fg-muted" />
                     No. HP (opsional)
                   </span>
                 </label>
@@ -180,8 +183,8 @@ export default function PengaduanPublik() {
 
             {/* Kategori */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Kategori <span className="text-danger-500">*</span>
+              <label className="block text-sm font-semibold text-fg mb-2">
+                Kategori Pengaduan <span className="text-danger-500">*</span>
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {categories.map((cat) => {
@@ -192,14 +195,14 @@ export default function PengaduanPublik() {
                       key={cat.value}
                       type="button"
                       onClick={() => setForm({ ...form, kategori: cat.value })}
-                      className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border text-sm transition-all ${
+                      className={`flex flex-col items-center gap-2 p-3 rounded-2xl border text-sm transition-all duration-200 cursor-pointer ${
                         selected
-                          ? 'bg-primary-50 border-primary-300 text-primary-700 shadow-sm'
-                          : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                          ? 'bg-primary-500/10 dark:bg-primary-950/30 border-primary-500/40 text-primary-700 dark:text-primary-300 font-bold shadow-sm'
+                          : 'bg-surface border-border text-fg-secondary hover:border-fg-muted hover:bg-surface-hover hover:text-fg'
                       }`}
                     >
-                      <Icon className={`w-5 h-5 ${selected ? 'text-primary-600' : 'text-slate-400'}`} />
-                      <span className="text-xs font-medium">{cat.label}</span>
+                      <Icon className={`w-5 h-5 ${selected ? 'text-primary-600 dark:text-primary-400' : 'text-fg-muted'}`} />
+                      <span className="text-xs font-semibold">{cat.label}</span>
                     </button>
                   );
                 })}
@@ -208,10 +211,10 @@ export default function PengaduanPublik() {
 
             {/* Lokasi */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label className="block text-sm font-semibold text-fg mb-2">
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-slate-400" />
-                  Lokasi (opsional)
+                  <MapPin className="w-4 h-4 text-fg-muted" />
+                  Lokasi Kejadian (opsional)
                 </span>
               </label>
               <input
@@ -219,13 +222,13 @@ export default function PengaduanPublik() {
                 value={form.lokasi}
                 onChange={(e) => setForm({ ...form, lokasi: e.target.value })}
                 className="input"
-                placeholder="Lokasi kejadian atau lokasi terkait"
+                placeholder="Lokasi kejadian atau nama dusun"
               />
             </div>
 
             {/* Isi Pengaduan */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label className="block text-sm font-semibold text-fg mb-2">
                 Isi Pengaduan <span className="text-danger-500">*</span>
               </label>
               <textarea
@@ -234,21 +237,21 @@ export default function PengaduanPublik() {
                 onChange={(e) => setForm({ ...form, isi_pengaduan: e.target.value })}
                 rows={5}
                 className="input"
-                placeholder="Jelaskan pengaduan, keluhan, atau aspirasi Anda secara detail"
+                placeholder="Jelaskan secara detail keluhan, aduan, atau aspirasi yang ingin Anda sampaikan"
               />
             </div>
 
             {/* Foto */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label className="block text-sm font-semibold text-fg mb-2">
                 <span className="flex items-center gap-1.5">
-                  <Upload className="w-4 h-4 text-slate-400" />
-                  Foto Bukti (opsional, maks. 3)
+                  <Upload className="w-4 h-4 text-fg-muted" />
+                  Foto Bukti Pendukung (opsional, maks. 3)
                 </span>
               </label>
               <div className="flex flex-wrap gap-3 mb-2">
                 {fotoFiles.map((file, i) => (
-                  <div key={i} className="relative w-24 h-24 bg-slate-100 rounded-xl overflow-hidden group">
+                  <div key={i} className="relative w-24 h-24 bg-subtle rounded-2xl overflow-hidden group border border-border">
                     <img
                       src={URL.createObjectURL(file)}
                       alt={`Foto ${i + 1}`}
@@ -257,27 +260,27 @@ export default function PengaduanPublik() {
                     <button
                       type="button"
                       onClick={() => removeFoto(i)}
-                      className="absolute top-1 right-1 p-1 bg-red-500/90 text-white rounded-lg opacity-0 group-hover:opacity-100 hover:bg-red-600 transition-all"
+                      className="absolute top-1 right-1 p-1 bg-red-500/90 text-white rounded-lg opacity-0 group-hover:opacity-100 hover:bg-red-600 transition-all cursor-pointer"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 ))}
                 {fotoFiles.length < 3 && (
-                  <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-primary-400 hover:bg-primary-50/50 transition-all">
-                    <Upload className="w-5 h-5 text-slate-400" />
-                    <span className="text-[10px] text-slate-400 mt-1">Upload</span>
+                  <label className="w-24 h-24 border-2 border-dashed border-border rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-500/5 dark:hover:bg-primary-950/10 transition-all duration-200">
+                    <Upload className="w-5 h-5 text-fg-muted" />
+                    <span className="text-[10px] font-bold text-fg-muted mt-1.5">Upload</span>
                     <input type="file" accept="image/*" onChange={addFoto} className="hidden" />
                   </label>
                 )}
               </div>
-              <p className="text-xs text-slate-400">Format: JPG/PNG/WebP, maks 5MB per file</p>
+              <p className="text-xs text-fg-muted">Format yang didukung: JPG, PNG, WebP (maks 5MB per file)</p>
             </div>
 
             <button
               type="submit"
               disabled={submitMutation.isPending}
-              className="btn-primary btn-lg w-full"
+              className="btn-primary btn-lg w-full cursor-pointer"
             >
               {submitMutation.isPending ? (
                 <>
@@ -294,11 +297,11 @@ export default function PengaduanPublik() {
           </form>
 
           {submitMutation.isError && (
-            <div className="mt-5 p-4 bg-danger-50 border border-danger-100 rounded-xl flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-danger-500 shrink-0 mt-0.5" />
+            <div className="mt-5 p-4 bg-danger-50 dark:bg-danger-950/20 border border-danger-200 dark:border-danger-900/30 rounded-2xl flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-danger-600 dark:text-danger-400 shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-danger-700">Gagal mengirim pengaduan</p>
-                <p className="text-xs text-danger-600 mt-0.5">
+                <p className="text-sm font-bold text-danger-700 dark:text-danger-300">Gagal mengirim pengaduan</p>
+                <p className="text-xs text-danger-600 dark:text-danger-400 mt-1">
                   {(submitMutation.error as any)?.response?.data?.message || 'Silakan coba lagi beberapa saat.'}
                 </p>
               </div>

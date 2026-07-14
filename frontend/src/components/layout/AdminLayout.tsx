@@ -82,7 +82,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen flex" className="bg-page">
+    <div className="min-h-screen flex bg-page">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -210,20 +210,17 @@ export default function AdminLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* ===== Top Header ===== */}
         <header
-          className="sticky top-0 z-30 h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8"
-          className="bg-surface border-b border-border backdrop-blur-md"
+          className="sticky top-0 z-30 h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8 bg-surface border-b border-border backdrop-blur-md"
         >
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 -ml-2 rounded-lg transition-colors"
-              className="text-fg-secondary"
+              className="lg:hidden p-2 -ml-2 rounded-lg transition-colors text-fg-secondary"
             >
               <Menu className="w-5 h-5" />
             </button>
             <span
-              className="hidden sm:block text-sm font-medium capitalize"
-              className="text-fg"
+              className="hidden sm:block text-sm font-medium capitalize text-fg"
             >
               {location.pathname.split('/').pop()?.replace(/-/g, ' ') || 'Dashboard'}
             </span>
@@ -233,8 +230,7 @@ export default function AdminLayout() {
             <ThemeToggle />
             <Link
               to="/"
-              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
-              className="text-fg-secondary"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-fg-secondary"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               Lihat Website
