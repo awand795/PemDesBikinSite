@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { createColumnHelper, type SortingState } from '@tanstack/react-table';
 import api from '@/services/api';
 import DataTable from '@/components/ui/DataTable';
-import { Plus, Search, Edit } from 'lucide-react';
+import { exportToExcel, exportToPdf } from '@/utils/export';
+import { Plus, Search, Edit, FileSpreadsheet, FileText } from 'lucide-react';
 
 interface Resident {
   id: number;
@@ -21,6 +22,7 @@ export default function ResidentsList() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [isExporting, setIsExporting] = useState(false);
 
   const sortBy = sorting[0]?.id || '';
   const sortDir = sorting[0]?.desc ? 'desc' : 'asc';
@@ -37,6 +39,60 @@ export default function ResidentsList() {
 
   const residents = data?.data || [];
   const total = data?.total || 0;
+
+  // Export columns definition
+  const exportColumns = [
+    { key: 'nik', label: 'NIK' },
+    { key: 'nama_lengkap', label: 'Nama Lengkap' },
+    { key: 'jenis_kelamin', label: 'Jenis Kelamin' },
+    { key: 'tempat_lahir', label: 'Tempat Lahir' },
+    { key: 'tanggal_lahir', label: 'Tanggal Lahir' },
+    { key: 'agama', label: 'Agama' },
+    { key: 'pendidikan_terakhir', label: 'Pendidikan' },
+    { key: 'pekerjaan', label: 'Pekerjaan' },
+    { key: 'status_perkawinan', label: 'Status Perkawinan' },
+    { key: 'family.dusun.nama_dusun', label: 'Dusun' },
+    { key: 'no_hp', label: 'No. HP' },
+    { key: 'is_active', label: 'Status' },
+  ];
+
+  const exportFormatters = {
+    'jenis_kelamin': (v: string) => v === 'L' ? 'Laki-laki' : 'Perempuan',
+    'is_active': (v: boolean) => v ? 'Aktif' : 'Nonaktif',
+    'tanggal_lahir': (v: string) => v ? new Date(v).toLocaleDateString('id-ID') : '',
+    'family.dusun.nama_dusun': (v: string) => v || '-',
+  };
+
+  async function fetchAllForExport() {
+    const { data } = await api.get('/residents', {
+      params: { search, per_page: 99999, sort_by: sortBy || undefined, sort_dir: sortBy ? sortDir : undefined },
+    });
+    return data.data || [];
+  }
+
+  async function handleExportExcel() {
+    setIsExporting(true);
+    try {
+      const allData = await fetchAllForExport();
+      exportToExcel(allData, exportColumns, 'Data_Penduduk', exportFormatters);
+    } catch (err) {
+      console.error('Export Excel gagal:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
+  async function handleExportPdf() {
+    setIsExporting(true);
+    try {
+      const allData = await fetchAllForExport();
+      exportToPdf(allData, exportColumns, 'Data Penduduk Desa', 'Data_Penduduk', exportFormatters);
+    } catch (err) {
+      console.error('Export PDF gagal:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  }
 
   const columns = useMemo(() => [
     columnHelper.accessor('nik', {
@@ -87,13 +143,33 @@ export default function ResidentsList() {
           <h1 className="text-2xl font-bold text-fg">Data Penduduk</h1>
           <p className="text-fg-secondary text-sm mt-1">Total: {total} jiwa</p>
         </div>
-        <Link
-          to="/admin/penduduk/tambah"
-          className="flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-          Tambah Penduduk
-        </Link>
+        <div className="flex items-center gap-2">
+          {/* Export Excel */}
+          <button
+            onClick={handleExportExcel}
+            disabled={isExporting}
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-fg text-sm font-medium rounded-lg hover:bg-subtle disabled:opacity-50 transition-colors"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-green-600" />
+            Excel
+          </button>
+          {/* Export PDF */}
+          <button
+            onClick={handleExportPdf}
+            disabled={isExporting}
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-fg text-sm font-medium rounded-lg hover:bg-subtle disabled:opacity-50 transition-colors"
+          >
+            <FileText className="w-4 h-4 text-red-600" />
+            PDF
+          </button>
+          <Link
+            to="/admin/penduduk/tambah"
+            className="flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Tambah Penduduk
+          </Link>
+        </div>
       </div>
 
       <div className="relative max-w-md">

@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { createColumnHelper, type SortingState } from '@tanstack/react-table';
 import api from '@/services/api';
 import DataTable from '@/components/ui/DataTable';
-import { Search, Eye } from 'lucide-react';
+import { exportToExcel, exportToPdf } from '@/utils/export';
+import { Search, Eye, FileSpreadsheet, FileText } from 'lucide-react';
 
 interface LetterRequest {
   id: number;
@@ -30,6 +31,7 @@ export default function SuratList() {
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [isExporting, setIsExporting] = useState(false);
 
   const sortBy = sorting[0]?.id || '';
   const sortDir = sorting[0]?.desc ? 'desc' : 'asc';
@@ -45,6 +47,64 @@ export default function SuratList() {
   });
 
   const requests = data?.data || [];
+
+  // Export columns
+  const exportColumns = [
+    { key: 'nomor_pengajuan', label: 'No. Pengajuan' },
+    { key: 'nama_pemohon', label: 'Pemohon' },
+    { key: 'nik_pemohon', label: 'NIK' },
+    { key: 'letter_type.nama', label: 'Jenis Surat' },
+    { key: 'keperluan', label: 'Keperluan' },
+    { key: 'status', label: 'Status' },
+    { key: 'nomor_surat', label: 'No. Surat' },
+    { key: 'tanggal_pengajuan', label: 'Tanggal Pengajuan' },
+    { key: 'tanggal_diproses', label: 'Tanggal Diproses' },
+  ];
+
+  const statusLabels: Record<string, string> = {
+    menunggu: 'Menunggu', diproses: 'Diproses',
+    disetujui: 'Disetujui', ditolak: 'Ditolak', selesai: 'Selesai',
+  };
+
+  const exportFormatters = {
+    'status': (v: string) => statusLabels[v] || v,
+    'tanggal_pengajuan': (v: string) => v ? new Date(v).toLocaleDateString('id-ID') : '',
+    'tanggal_diproses': (v: string) => v ? new Date(v).toLocaleDateString('id-ID') : '',
+    'letter_type.nama': (v: string) => v || '-',
+    'nomor_surat': (v: string) => v || '-',
+    'keperluan': (v: string) => v || '-',
+  };
+
+  async function fetchAllForExport() {
+    const params: any = { search, per_page: 99999, sort_by: sortBy || undefined, sort_dir: sortBy ? sortDir : undefined };
+    if (status) params.status = status;
+    const { data } = await api.get('/letter-requests', { params });
+    return data.data || [];
+  }
+
+  async function handleExportExcel() {
+    setIsExporting(true);
+    try {
+      const allData = await fetchAllForExport();
+      exportToExcel(allData, exportColumns, 'Permohonan_Surat', exportFormatters);
+    } catch (err) {
+      console.error('Export Excel gagal:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
+  async function handleExportPdf() {
+    setIsExporting(true);
+    try {
+      const allData = await fetchAllForExport();
+      exportToPdf(allData, exportColumns, 'Data Permohonan Surat', 'Permohonan_Surat', exportFormatters);
+    } catch (err) {
+      console.error('Export PDF gagal:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  }
 
   const columns = useMemo(() => [
     columnHelper.accessor('nomor_pengajuan', {
@@ -90,9 +150,29 @@ export default function SuratList() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-fg">Permohonan Surat</h1>
-        <p className="text-fg-secondary text-sm mt-1">Total: {data?.total || 0} permohonan</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-fg">Permohonan Surat</h1>
+          <p className="text-fg-secondary text-sm mt-1">Total: {data?.total || 0} permohonan</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleExportExcel}
+            disabled={isExporting}
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-fg text-sm font-medium rounded-lg hover:bg-subtle disabled:opacity-50 transition-colors"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-green-600" />
+            Excel
+          </button>
+          <button
+            onClick={handleExportPdf}
+            disabled={isExporting}
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-fg text-sm font-medium rounded-lg hover:bg-subtle disabled:opacity-50 transition-colors"
+          >
+            <FileText className="w-4 h-4 text-red-600" />
+            PDF
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
